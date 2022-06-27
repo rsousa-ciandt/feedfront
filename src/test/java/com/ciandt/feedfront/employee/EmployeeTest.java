@@ -7,16 +7,27 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EmployeeTest {
-
     private Employee employeeTest;
 
-
     @Test
-    public void testGetEmail() throws ComprimentoInvalidoException {
-        employeeTest = new Employee("João", "Garcia", "j.garcia@ciandt.com");
-        assertEquals(employeeTest.getEmail(), "j.garcia@ciandt.com");
+    public void criarEmployeeTest() {
     }
 
+    @Test
+    public void listarEmployees() {
+    }
+
+    @Test
+    public void buscarEmployee() {
+    }
+
+    @Test
+    public void apagarEmployee() {
+    }
+
+    @Test
+    public void atualizarEmployee() {
+    }
 
     @Test
     public void nomeDeveTerComprimentoMaiorQueDois() {
