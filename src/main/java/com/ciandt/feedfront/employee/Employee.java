@@ -2,14 +2,17 @@ package com.ciandt.feedfront.employee;
 
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
 
+import java.util.List;
+
 public class Employee {
     private String nome;
     private String sobrenome;
     private String email;
+    private List<String> feedbacks;
 
     public Employee(String nome, String sobrenome, String email) throws ComprimentoInvalidoException {
         setNome(nome);
-        this.sobrenome = sobrenome;
+        setSobrenome(sobrenome);
         this.email = email;
     }
 
@@ -29,8 +32,12 @@ public class Employee {
         return sobrenome;
     }
 
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
+    public void setSobrenome(String sobrenome) throws ComprimentoInvalidoException {
+        if(sobrenome.length() < 3) {
+            throw new ComprimentoInvalidoException("Comprimento do sobrenome deve ser maior que 2 caracteres.");
+        } else {
+            this.sobrenome = sobrenome;
+        }
     }
 
     public String getEmail() {
@@ -40,4 +47,6 @@ public class Employee {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }

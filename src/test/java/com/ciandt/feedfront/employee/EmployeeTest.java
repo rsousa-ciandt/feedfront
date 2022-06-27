@@ -4,17 +4,12 @@ package com.ciandt.feedfront.employee;
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class EmployeeTest {
 
     private Employee employeeTest;
 
-//    @BeforeEach
-//    public void setUp(){
-//        employeeTest = new Employee("João", "Garcia", "j.garcia@ciandt.com");
-//    }
 
     @Test
     public void testGetEmail() throws ComprimentoInvalidoException {
@@ -24,13 +19,26 @@ public class EmployeeTest {
 
 
     @Test
-    public void deveTerComprimentoMaiorQueDois() {
-        try {
-            employeeTest = new Employee("Ze", "Juvenil", "z.juvenil@ciandt.com");
-            fail();
-        } catch (ComprimentoInvalidoException ex) {
-            assertEquals("Comprimento do nome deve ser maior que 2 caracteres.", ex.getMessage());
-        }
+    public void nomeDeveTerComprimentoMaiorQueDois() {
+        Exception exception = assertThrows(ComprimentoInvalidoException.class, () ->
+        employeeTest = new Employee("Ze", "Juvenil", "z.juvenil@ciandt.com")
+        );
+
+        String mensagemEsperada = "Comprimento do nome deve ser maior que 2 caracteres.";
+        String mensagemRecebida = exception.getMessage();
+        assertEquals(mensagemEsperada, mensagemRecebida);
+
+    }
+
+    @Test
+    public void sobrenomeDeveTerComprimentoMaiorQueDois() {
+        Exception exception = assertThrows(ComprimentoInvalidoException.class, () ->
+        employeeTest = new Employee("Joao", "ao", "z.juvenil@ciandt.com")
+        );
+
+        String mensagemEsperada = "Comprimento do sobrenome deve ser maior que 2 caracteres.";
+        String mensagemRecebida = exception.getMessage();
+        assertEquals(mensagemEsperada, mensagemRecebida);
 
     }
 }
