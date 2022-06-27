@@ -48,5 +48,11 @@ public class Employee {
         this.email = email;
     }
 
-
+    @Override
+    public String toString() {
+        return "{ Nome: " + getNome() +
+                "\nSobrenome: " + getSobrenome() +
+                "\nE-mail: " + getEmail() +
+                " }";
+    }
 }
