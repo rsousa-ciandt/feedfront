@@ -18,23 +18,23 @@ public class Employee {
         this.id = UUID.randomUUID().toString();
     }
 
-    public Employee salvarEmployee(Employee employee) throws ArquivoException, ComprimentoInvalidoException {
+    public static Employee salvarEmployee(Employee employee) throws ArquivoException, ComprimentoInvalidoException {
         return null;
     }
 
-    public Employee atualizarEmployee(Employee employee) throws ArquivoException, ComprimentoInvalidoException {
+    public static Employee atualizarEmployee(Employee employee) throws ArquivoException, ComprimentoInvalidoException {
         return null;
     }
 
-    public List<Employee> listarEmployees() throws ArquivoException {
+    public static List<Employee> listarEmployees() throws ArquivoException {
         return null;
     }
 
-    public Employee buscarEmployee(String id) throws ArquivoException, EmployeeNaoEncontradoException {
+    public static Employee buscarEmployee(String id) throws ArquivoException, EmployeeNaoEncontradoException {
         return null;
     }
 
-    public void apagarEmployee() throws ArquivoException, EmployeeNaoEncontradoException {
+    public static void apagarEmployee() throws ArquivoException, EmployeeNaoEncontradoException {
     }
 
     public String getNome() {
