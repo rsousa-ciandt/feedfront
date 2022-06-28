@@ -18,7 +18,7 @@ public class Employee {
         this.id = UUID.randomUUID().toString();
     }
 
-    public Employee criarEmployee(Employee employee) throws ArquivoException, ComprimentoInvalidoException {
+    public Employee salvarEmployee(Employee employee) throws ArquivoException, ComprimentoInvalidoException {
         return null;
     }
 
@@ -30,7 +30,7 @@ public class Employee {
         return null;
     }
 
-    public Employee buscarEmployee() throws ArquivoException, EmployeeNaoEncontradoException {
+    public Employee buscarEmployee(String id) throws ArquivoException, EmployeeNaoEncontradoException {
         return null;
     }
 
@@ -58,8 +58,8 @@ public class Employee {
     public void setEmail(String email) {
     }
 
-    @Override
-    public String toString() {
-        return email;
+    public String getId() {
+        return id;
     }
+
 }

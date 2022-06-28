@@ -1,16 +1,36 @@
 package com.ciandt.feedfront.employee;
 
 
+import com.ciandt.feedfront.excecoes.ArquivoException;
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EmployeeTest {
-    private Employee employeeTest;
+
+    public Employee employeeTest;
+    public Employee empregado1;
+    @BeforeEach
+    public void initEach() throws ComprimentoInvalidoException {
+        employeeTest = new Employee("Jose", "Silveira", "j.silveira@email.com");
+    }
 
     @Test
-    public void criarEmployeeTest() {
+    public void salvarEmployeeTest() throws ComprimentoInvalidoException, ArquivoException {
+        Employee empregado = new Employee("Jose", "Silveira", "j.silveira@email.com");
+        employeeTest.salvarEmployee(empregado);
+        Employee retornoDePesquisa = employeeTest.buscarEmployee(empregado.getId());
+        assertEquals(retornoDePesquisa.getId(), empregado.getId());
+
+        Exception exception = assertThrows(ArquivoException.class, () ->
+                empregado1 = new Employee("Joao", "Silveira", "j.silveira@email.com")
+                );
+        String mensagemEsperada = "E-mail ja cadastrado no repositorio";
+        String mensagemRecebida = exception.getMessage();
+        assertEquals(mensagemEsperada, mensagemRecebida);
+
     }
 
     @Test
