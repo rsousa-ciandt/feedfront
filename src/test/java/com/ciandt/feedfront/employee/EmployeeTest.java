@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sun.jvm.hotspot.utilities.Assert;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,9 +29,6 @@ public class EmployeeTest {
         employee2 = new Employee("João", "Silveira", "j.silveira@email.com");
 
         Employee.salvarEmployee(employee1);
-        Employee retornoDePesquisa = Employee.buscarEmployee(employee1.getId());
-
-        assertEquals(retornoDePesquisa, employee1);
 
         Exception emailException = assertThrows(EmailInvalidoException.class, () -> {
            Employee.salvarEmployee(employee2);
@@ -43,19 +41,48 @@ public class EmployeeTest {
     }
 
     @Test
-    public void listarEmployees() {
+    public void listarEmployees() throws ArquivoException {
+        List<Employee> employees = Employee.listarEmployees();
+
+        assertTrue(employees.isEmpty() == false);
+        assertTrue(employees.size() == 1);
     }
 
     @Test
-    public void buscarEmployee() {
+    public void buscarEmployee() throws ArquivoException, EmployeeNaoEncontradoException{
+        Employee retornoDePesquisa = Employee.buscarEmployee(employee1.getId());
+
+        assertEquals(retornoDePesquisa, employee1);
+
+        Exception employeeNaoEncontradoException = assertThrows(EmployeeNaoEncontradoException.class, () -> {
+                Employee.buscarEmployee(UUID.randomUUID().toString());
+        });
+
+        assertEquals(employeeNaoEncontradoException.getMessage(), "Employee não encontrado");
     }
 
     @Test
-    public void apagarEmployee() {
+    public void atualizarEmployee() throws ComprimentoInvalidoException, EmployeeNaoEncontradoException, ArquivoException, EmailInvalidoException {
+        String sobrenome = "Roberto";
+        employee1.setSobrenome(sobrenome);
+
+        String sobrenomeSalvo = Employee.buscarEmployee(employee1.getId()).getSobrenome();
+        assertNotEquals(sobrenomeSalvo, sobrenome);
+
+        Employee.atualizarEmployee(employee1);
+
+        sobrenomeSalvo = Employee.buscarEmployee(employee1.getId()).getSobrenome();
+        assertEquals(sobrenomeSalvo, sobrenome);
     }
 
     @Test
-    public void atualizarEmployee() {
+    public void apagarEmployee() throws ArquivoException, EmployeeNaoEncontradoException {
+        String id = employee1.getId();
+        Employee.apagarEmployee(id);
+
+        assertThrows(EmployeeNaoEncontradoException.class, () -> {
+            Employee.buscarEmployee(id);
+        });
     }
 
     @Test
