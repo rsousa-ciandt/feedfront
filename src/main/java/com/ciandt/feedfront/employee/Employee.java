@@ -2,6 +2,8 @@ package com.ciandt.feedfront.employee;
 
 import com.ciandt.feedfront.excecoes.ArquivoException;
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
+import com.ciandt.feedfront.excecoes.EmailInvalidoException;
+import com.ciandt.feedfront.excecoes.EmployeeNaoEncontradoException;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,11 +20,11 @@ public class Employee {
         this.id = UUID.randomUUID().toString();
     }
 
-    public static Employee salvarEmployee(Employee employee) throws ArquivoException, ComprimentoInvalidoException {
+    public static Employee salvarEmployee(Employee employee) throws ArquivoException, EmailInvalidoException {
         return null;
     }
 
-    public static Employee atualizarEmployee(Employee employee) throws ArquivoException, ComprimentoInvalidoException {
+    public static Employee atualizarEmployee(Employee employee) throws ArquivoException, EmailInvalidoException {
         return null;
     }
 
