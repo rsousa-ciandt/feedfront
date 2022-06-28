@@ -36,7 +36,7 @@ public class Employee {
         return null;
     }
 
-    public static void apagarEmployee() throws ArquivoException, EmployeeNaoEncontradoException {
+    public static void apagarEmployee(String id) throws ArquivoException, EmployeeNaoEncontradoException {
     }
 
     public String getNome() {
