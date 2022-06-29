@@ -80,30 +80,34 @@ public class EmployeeTest {
         String id = employee1.getId();
         Employee.apagarEmployee(id);
 
-        assertThrows(EmployeeNaoEncontradoException.class, () -> {
+        Exception employeeNaoEncontradoException =  assertThrows(EmployeeNaoEncontradoException.class, () -> {
             Employee.buscarEmployee(id);
         });
+
+        String mensagemRecebida = employeeNaoEncontradoException.getMessage();
+        String mensagemEsperada = "Employee não existe no repositório";
+        assertEquals(mensagemEsperada, mensagemRecebida);
     }
 
     @Test
     public void nomeDeveTerComprimentoMaiorQueDois() {
-        Exception exception = assertThrows(ComprimentoInvalidoException.class, () ->
+        Exception comprimentoInvalidoException = assertThrows(ComprimentoInvalidoException.class, () ->
         employee1 = new Employee("Ze", "Juvenil", "z.juvenil@ciandt.com")
         );
 
         String mensagemEsperada = "Comprimento do nome deve ser maior que 2 caracteres.";
-        String mensagemRecebida = exception.getMessage();
+        String mensagemRecebida = comprimentoInvalidoException.getMessage();
         assertEquals(mensagemEsperada, mensagemRecebida);
     }
 
     @Test
     public void sobrenomeDeveTerComprimentoMaiorQueDois() {
-        Exception exception = assertThrows(ComprimentoInvalidoException.class, () ->
+        Exception comprimentoInvalidoException = assertThrows(ComprimentoInvalidoException.class, () ->
         employee1 = new Employee("Joao", "ao", "z.juvenil@ciandt.com")
         );
 
         String mensagemEsperada = "Comprimento do sobrenome deve ser maior que 2 caracteres.";
-        String mensagemRecebida = exception.getMessage();
+        String mensagemRecebida = comprimentoInvalidoException.getMessage();
         assertEquals(mensagemEsperada, mensagemRecebida);
 
     }
