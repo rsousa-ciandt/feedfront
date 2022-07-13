@@ -114,6 +114,9 @@ public class EmployeeServiceTest {
 
     @Test
     public void apagar() {
-        // A implementar
+        assertDoesNotThrow(() -> dao.salvar(employee));
+        assertDoesNotThrow(() -> dao.apagar(employee.getId()));
+
+        assertThrows(IOException.class, () -> dao.buscar(employee.getId()));
     }
 }
