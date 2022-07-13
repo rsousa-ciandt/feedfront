@@ -114,9 +114,15 @@ public class EmployeeServiceTest {
 
     @Test
     public void apagar() {
-        assertDoesNotThrow(() -> dao.salvar(employee));
-        assertDoesNotThrow(() -> dao.apagar(employee.getId()));
+        assertDoesNotThrow(() -> service.salvar(employee));
 
-        assertThrows(IOException.class, () -> dao.buscar(employee.getId()));
+        Employee employee2 = assertDoesNotThrow(
+                () -> new Employee("Bruno", "Silveira", "b.silveira@email.com")
+        );
+
+        assertThrows(EntidadeNaoEncontradaException.class, () -> service.apagar(employee2.getId()));
+
+        assertDoesNotThrow(() -> service.apagar(employee.getId()));
+
     }
 }
