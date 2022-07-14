@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,61 +37,53 @@ public class EmployeeDAOTest {
 
         try {
             employee = new Employee("João", "Silveira", "j.silveira@email.com");
-        } catch (ComprimentoInvalidoException ignored) {
+            dao.salvar(employee);
+        } catch (IOException | ComprimentoInvalidoException ignored) {
         }
     }
 
     @Test
-    public void salvar() {
-        assertDoesNotThrow(() -> dao.salvar(employee));
-        assertDoesNotThrow(() -> dao.salvar(new Employee("Jose", "Silveira", "j.silveira@email.com")));
-    }
-
-    @Test
-    public void atualizarDados() {
-        String novoNome = "bruno";
-        String novoEmail = "b.silveira@email.com";
-        assertDoesNotThrow(() -> dao.salvar(employee));
-
-        try {
-            employee.setNome(novoNome);
-            employee.setEmail(novoEmail);
-        } catch (ComprimentoInvalidoException ignored) {
-        }
-
-        Employee employeeSalvo = assertDoesNotThrow(() -> dao.buscar(employee.getId()));
-
-        assertNotEquals(employeeSalvo.getNome(), novoNome);
-        assertNotEquals(employeeSalvo.getEmail(), novoEmail);
-
-        Employee employeAtualizado = assertDoesNotThrow(() -> dao.salvar(employee));
-
-        assertEquals(employeAtualizado, employee);
-    }
-
-    @Test
-    public void listar() {
-        List<Employee> result = assertDoesNotThrow(dao::listar);
-
-        assertTrue(result.isEmpty());
-
-        assertDoesNotThrow(() -> dao.salvar(employee));
-        assertDoesNotThrow(() -> dao.salvar(new Employee("Jose", "Silveira", "j.silveira@email.com")));
-
-        result = assertDoesNotThrow(dao::listar);
+    public void listar() throws IOException {
+        List<Employee> result = dao.listar();
 
         assertFalse(result.isEmpty());
     }
 
     @Test
     public void buscar() {
-        String uuid = UUID.randomUUID().toString();
-        assertThrows(IOException.class, () -> dao.buscar(uuid));
+        String idValido = employee.getId();
+        String idInvalido = UUID.randomUUID().toString();
 
-        assertDoesNotThrow(() -> dao.salvar(employee));
-        Employee employeSalvo = assertDoesNotThrow(() -> dao.buscar(employee.getId()));
+
+        assertThrows(IOException.class, () -> dao.buscar(idInvalido));
+        Employee employeSalvo = assertDoesNotThrow(() -> dao.buscar(idValido));
 
         assertEquals(employeSalvo, employee);
+    }
+
+    @Test
+    public void salvar() throws IOException, ComprimentoInvalidoException {
+        String id = employee.getId();
+        Employee employeeSalvo = dao.buscar(id);
+        Employee employeeNaoSalvo = new Employee("Jose", "Silveira", "j.silveira@email.com");
+
+        assertEquals(employee, employeeSalvo);
+        assertDoesNotThrow(() -> dao.salvar(employeeNaoSalvo));
+    }
+
+    @Test
+    public void atualizarDados() throws IOException, ComprimentoInvalidoException {
+        employee.setNome("bruno");
+        employee.setEmail("b.silveira@email.com");
+
+        Employee employeeSalvo = dao.buscar(employee.getId());
+
+        assertNotEquals(employeeSalvo.getNome(), employee.getNome());
+        assertNotEquals(employeeSalvo.getEmail(), employee.getEmail());
+
+        Employee employeAtualizado = dao.salvar(employee);
+
+        assertEquals(employeAtualizado, employee);
     }
 
     @Test
