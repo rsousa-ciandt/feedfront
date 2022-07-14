@@ -14,6 +14,6 @@ public interface DAO<E> {
 
     E salvar(E e) throws IOException, EntidadeNaoSerializavelException;
 
-    void apagar(String id) throws IOException, EntidadeNaoSerializavelException;
+    boolean apagar(String id) throws IOException, EntidadeNaoSerializavelException;
 
 }

@@ -38,7 +38,7 @@ public class EmployeeDAO implements DAO<Employee> {
     }
 
     @Override
-    public void apagar(String id) throws IOException, EntidadeNaoSerializavelException {
+    public boolean apagar(String id) throws IOException, EntidadeNaoSerializavelException {
         throw new NotImplementedException();
     }
 }
