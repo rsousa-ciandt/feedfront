@@ -44,17 +44,12 @@ public class FeedbackServiceTest {
             proprietario = new Employee("Mateus", "Santos", "m.santos@email.com");
         } catch (ComprimentoInvalidoException ignored) {}
 
-
+        service.salvar(feedback);
         feedback = new Feedback(LocalDate.now(),autor,proprietario,"Agradeco muito pelo apoio feito pelo colega!");//construtor 1
     }
 
     @Test
     public void listar() {
-        List<Feedback> listaVazia = service.listar();
-
-        assertTrue(listaVazia.isEmpty());
-
-        service.salvar(feedback);
         List<Feedback> lista= service.listar();
 
         assertDoesNotThrow(() -> service.listar());
@@ -67,18 +62,18 @@ public class FeedbackServiceTest {
     public void salvar() {
         Feedback feedbackInvalido = new Feedback(LocalDate.now(),null,null,"feedback sem autor e proprietario");
         Feedback feedbackInvalido2 = new Feedback(LocalDate.now(),autor,proprietario,"tt");
+        Feedback feedbackValido = new Feedback(LocalDate.now(),autor,proprietario,"O Colega foi muito prestativo e auxiliou nas minhas atividades");
 
         assertThrows(IllegalArgumentException.class,() -> service.salvar(feedbackInvalido));
         assertThrows(ComprimentoInvalidoException.class,() -> service.salvar(feedbackInvalido2));
 
-        assertDoesNotThrow(() -> service.salvar(feedback));
+        assertDoesNotThrow(() -> service.salvar(feedbackValido));
 
     }
 
     @Test
     public void buscar() {
         Feedback feedbackNaoSalvo = new Feedback(LocalDate.now(),autor,proprietario,"tt");
-        service.salvar(feedback);
 
         assertThrows(EntidadeNaoEncontradaException.class, () -> service.buscar(feedbackNaoSalvo.getId()));
         assertDoesNotThrow(() -> service.buscar(feedback.getId()));
