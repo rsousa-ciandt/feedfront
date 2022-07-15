@@ -1,10 +1,10 @@
 package com.ciandt.feedfront.services;
 
 import com.ciandt.feedfront.contracts.Service;
-import com.ciandt.feedfront.employee.Employee;
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
 import com.ciandt.feedfront.excecoes.EntidadeNaoEncontradaException;
 import com.ciandt.feedfront.models.Feedback;
+import com.ciandt.feedfront.models.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
