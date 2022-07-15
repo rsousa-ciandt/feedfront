@@ -44,8 +44,8 @@ public class FeedbackServiceTest {
             proprietario = new Employee("Mateus", "Santos", "m.santos@email.com");
         } catch (ComprimentoInvalidoException ignored) {}
 
-        service.salvar(feedback);
         feedback = new Feedback(LocalDate.now(),autor,proprietario,"Agradeco muito pelo apoio feito pelo colega!");//construtor 1
+        service.salvar(feedback);
     }
 
     @Test
