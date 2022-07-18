@@ -1,7 +1,7 @@
 package com.ciandt.feedfront.excecoes;
 
-public class EmployeeNaoEncontradoException extends Exception {
-    public EmployeeNaoEncontradoException(String message) {
+public class EntidadeNaoEncontradaException extends BusinessException {
+    public EntidadeNaoEncontradaException(String message) {
         super(message);
     }
 }

@@ -35,4 +35,6 @@ public class EmployeeController {
     public void apagar(String id) throws BusinessException, ArquivoException {
         throw new UnsupportedOperationException();
     }
+
+    public void setService(Service<Employee> service) {}
 }

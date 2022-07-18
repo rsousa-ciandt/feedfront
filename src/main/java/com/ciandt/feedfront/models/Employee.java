@@ -3,7 +3,7 @@ package com.ciandt.feedfront.models;
 import com.ciandt.feedfront.excecoes.ArquivoException;
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
 import com.ciandt.feedfront.excecoes.EmailInvalidoException;
-import com.ciandt.feedfront.excecoes.EmployeeNaoEncontradoException;
+import com.ciandt.feedfront.excecoes.EntidadeNaoEncontradaException;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -74,7 +74,7 @@ public class Employee implements Serializable {
         return employee;
     }
 
-    public static Employee atualizarEmployee(Employee employee) throws ArquivoException, EmployeeNaoEncontradoException, EmailInvalidoException {
+    public static Employee atualizarEmployee(Employee employee) throws ArquivoException, EntidadeNaoEncontradaException, EmailInvalidoException {
         buscarEmployee(employee.getId());
 
         return salvarEmployee(employee);
@@ -95,7 +95,7 @@ public class Employee implements Serializable {
             for (String file: files) {
                 try {
                     employees.add(buscarEmployee(file));
-                } catch (EmployeeNaoEncontradoException e) {
+                } catch (EntidadeNaoEncontradaException e) {
                     // Exception silenciada porque sei que não chegará aqui
                 }
             }
@@ -108,7 +108,7 @@ public class Employee implements Serializable {
         return employees;
     }
 
-    public static Employee buscarEmployee(String id) throws ArquivoException, EmployeeNaoEncontradoException {
+    public static Employee buscarEmployee(String id) throws ArquivoException, EntidadeNaoEncontradaException {
         Employee employee;
         ObjectInputStream inputStream;
 
@@ -119,7 +119,7 @@ public class Employee implements Serializable {
             inputStream.close();
         } catch (IOException | ClassNotFoundException e) {
             if (e.getClass().getSimpleName().equals("FileNotFoundException")) {
-                throw new EmployeeNaoEncontradoException("Employee não encontrado");
+                throw new EntidadeNaoEncontradaException("Employee não encontrado");
             }
 
             throw new ArquivoException("");
@@ -128,7 +128,7 @@ public class Employee implements Serializable {
         return employee;
     }
 
-    public static void apagarEmployee(String id) throws ArquivoException, EmployeeNaoEncontradoException {
+    public static void apagarEmployee(String id) throws ArquivoException, EntidadeNaoEncontradaException {
         buscarEmployee(id);
 
         new File(String.format("%s%s.byte", repositorioPath, id)).delete();
