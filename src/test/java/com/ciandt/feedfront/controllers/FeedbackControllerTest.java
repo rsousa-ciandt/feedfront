@@ -30,7 +30,7 @@ public class FeedbackControllerTest {
     @BeforeEach
     public void initEach() {
         try {
-            Files.walk(Paths.get("src/main/resources/data/Feedback/"))
+            Files.walk(Paths.get("src/main/resources/data/feedback/"))
                     .filter(p -> p.toString().endsWith(".byte"))
                     .forEach(p -> {
                         new File(p.toString()).delete();
