@@ -1,10 +1,12 @@
 package com.ciandt.feedfront.services;
 
 import com.ciandt.feedfront.contracts.Service;
-import com.ciandt.feedfront.employee.Employee;
+import com.ciandt.feedfront.excecoes.ArquivoException;
+import com.ciandt.feedfront.excecoes.BusinessException;
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
 import com.ciandt.feedfront.excecoes.EntidadeNaoEncontradaException;
 import com.ciandt.feedfront.models.Feedback;
+import com.ciandt.feedfront.models.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,28 +30,22 @@ public class FeedbackServiceTest {
     private Service<Feedback> service = new FeedbackService();
 
     @BeforeEach
-    public void initEach() {
-        try {
-            Files.walk(Paths.get("src/main/resources/data/feedback/"))
-                    .filter(p -> p.toString().endsWith(".byte"))
-                    .forEach(p -> {
-                        new File(p.toString()).delete();
-                    });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void initEach() throws IOException , ComprimentoInvalidoException {
 
-        try {
-            autor = new Employee("João", "Silveira", "j.silveira@email.com");
-            proprietario = new Employee("Mateus", "Santos", "m.santos@email.com");
-        } catch (ComprimentoInvalidoException ignored) {}
+        Files.walk(Paths.get("src/main/resources/data/feedback/"))
+                .filter(p -> p.toString().endsWith(".byte"))
+                .forEach(p -> {
+                    new File(p.toString()).delete();
+                });
 
-        service.salvar(feedback);
+        autor = new Employee("João", "Silveira", "j.silveira@email.com");
+        proprietario = new Employee("Mateus", "Santos", "m.santos@email.com");
         feedback = new Feedback(LocalDate.now(),autor,proprietario,"Agradeco muito pelo apoio feito pelo colega!");//construtor 1
+        service.salvar(feedback);
     }
 
     @Test
-    public void listar() {
+    public void listar() throws IOException{
         List<Feedback> lista= service.listar();
 
         assertDoesNotThrow(() -> service.listar());
@@ -59,7 +55,7 @@ public class FeedbackServiceTest {
     }
 
     @Test
-    public void salvar() {
+    public void salvar() throws ArquivoException,BusinessException {
         Feedback feedbackInvalido = new Feedback(LocalDate.now(),null,null,"feedback sem autor e proprietario");
         Feedback feedbackInvalido2 = new Feedback(LocalDate.now(),autor,proprietario,"tt");
         Feedback feedbackValido = new Feedback(LocalDate.now(),autor,proprietario,"O Colega foi muito prestativo e auxiliou nas minhas atividades");
@@ -72,7 +68,7 @@ public class FeedbackServiceTest {
     }
 
     @Test
-    public void buscar() {
+    public void buscar() throws ArquivoException,BusinessException {
         Feedback feedbackNaoSalvo = new Feedback(LocalDate.now(),autor,proprietario,"tt");
 
         assertThrows(EntidadeNaoEncontradaException.class, () -> service.buscar(feedbackNaoSalvo.getId()));
