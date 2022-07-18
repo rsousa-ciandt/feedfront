@@ -13,38 +13,32 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 
+// O DAO é resposável pela persistência dos dados
+// Com esse mecanismo de persistência (arquivos), não possui responsabilidades de validar regras
 public class EmployeeDAOTest {
     private Employee employee;
-    private DAO<Employee> dao = new EmployeeDAO();
+    private DAO<Employee> employeeDAO;
 
     @BeforeEach
-    public void initEach() {
-        try {
-            Files.walk(Paths.get("src/main/resources/data/employee/"))
-                    .filter(p -> p.toString().endsWith(".byte"))
-                    .forEach(p -> {
-                        new File(p.toString()).delete();
-                    });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void initEach() throws IOException, ComprimentoInvalidoException {
+        // Este trecho de código serve somente para limpar o repositório
+        Files.walk(Paths.get("src/main/resources/data/employee/"))
+                .filter(p -> p.toString().endsWith(".byte"))
+                .forEach(p -> {
+                    new File(p.toString()).delete();
+                });
 
-        try {
-            employee = new Employee("João", "Silveira", "j.silveira@email.com");
-            dao.salvar(employee);
-        } catch (IOException | ComprimentoInvalidoException ignored) {
-        }
+        employeeDAO = new EmployeeDAO();
+        employee = new Employee("João", "Silveira", "j.silveira@email.com");
+
+        employeeDAO.salvar(employee);
     }
 
     @Test
     public void listar() throws IOException {
-        List<Employee> result = dao.listar();
+        List<Employee> result = employeeDAO.listar();
 
         assertFalse(result.isEmpty());
     }
@@ -54,9 +48,8 @@ public class EmployeeDAOTest {
         String idValido = employee.getId();
         String idInvalido = UUID.randomUUID().toString();
 
-
-        assertThrows(IOException.class, () -> dao.buscar(idInvalido));
-        Employee employeSalvo = assertDoesNotThrow(() -> dao.buscar(idValido));
+        assertThrows(IOException.class, () -> employeeDAO.buscar(idInvalido));
+        Employee employeSalvo = assertDoesNotThrow(() -> employeeDAO.buscar(idValido));
 
         assertEquals(employeSalvo, employee);
     }
@@ -64,11 +57,11 @@ public class EmployeeDAOTest {
     @Test
     public void salvar() throws IOException, ComprimentoInvalidoException {
         String id = employee.getId();
-        Employee employeeSalvo = dao.buscar(id);
+        Employee employeeSalvo = employeeDAO.buscar(id);
         Employee employeeNaoSalvo = new Employee("Jose", "Silveira", "j.silveira@email.com");
 
         assertEquals(employee, employeeSalvo);
-        assertDoesNotThrow(() -> dao.salvar(employeeNaoSalvo));
+        assertDoesNotThrow(() -> employeeDAO.salvar(employeeNaoSalvo));
     }
 
     @Test
@@ -76,21 +69,21 @@ public class EmployeeDAOTest {
         employee.setNome("bruno");
         employee.setEmail("b.silveira@email.com");
 
-        Employee employeeSalvo = dao.buscar(employee.getId());
+        Employee employeeSalvo = employeeDAO.buscar(employee.getId());
 
         assertNotEquals(employeeSalvo.getNome(), employee.getNome());
         assertNotEquals(employeeSalvo.getEmail(), employee.getEmail());
 
-        Employee employeAtualizado = dao.salvar(employee);
+        Employee employeAtualizado = employeeDAO.salvar(employee);
 
         assertEquals(employeAtualizado, employee);
     }
 
     @Test
     public void apagar() {
-        assertDoesNotThrow(() -> dao.salvar(employee));
-        assertDoesNotThrow(() -> dao.apagar(employee.getId()));
+        boolean apagou = assertDoesNotThrow(() -> employeeDAO.apagar(employee.getId()));
 
-        assertThrows(IOException.class, () -> dao.buscar(employee.getId()));
+        assertTrue(apagou);
+        assertThrows(IOException.class, () -> employeeDAO.buscar(employee.getId()));
     }
 }
