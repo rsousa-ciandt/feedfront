@@ -1,58 +1,45 @@
 package com.ciandt.feedfront.services;
 
 
+import com.ciandt.feedfront.contracts.DAO;
 import com.ciandt.feedfront.contracts.Service;
-import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
-import com.ciandt.feedfront.excecoes.EmailInvalidoException;
-import com.ciandt.feedfront.excecoes.EntidadeNaoEncontradaException;
+import com.ciandt.feedfront.excecoes.*;
 import com.ciandt.feedfront.models.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
+// O Service deve ser capaz de trabalhar em conjunto com o DAO para executar as tarefas
+// Sempre valendo-se das regras de negócio
 public class EmployeeServiceTest {
     private Employee employee;
-    private Service<Employee> service = new EmployeeService();
+    private DAO<Employee> employeeDAO;
+    private Service<Employee> employeeService;
 
     @BeforeEach
-    public void initEach() {
-        try {
-            Files.walk(Paths.get("src/main/resources/data/employee/"))
-                    .filter(p -> p.toString().endsWith(".byte"))
-                    .forEach(p -> {
-                        new File(p.toString()).delete();
-                    });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @SuppressWarnings("unchecked")
+    public void initEach() throws IOException, BusinessException {
+        employeeService = new EmployeeService();
+        employeeDAO = (DAO<Employee>) Mockito.mock(DAO.class);
+        employee = new Employee("João", "Silveira", "j.silveira@email.com");
 
-        try {
-            employee = new Employee("João", "Silveira", "j.silveira@email.com");
-        } catch (ComprimentoInvalidoException ignored) {
-        }
+        employeeService.setDAO(employeeDAO);
+
+        employeeService.salvar(employee);
     }
 
     @Test
-    public void listar() {
-        List<Employee> employees = assertDoesNotThrow(service::listar);
+    public void listar() throws IOException {
+        when(employeeDAO.listar()).thenReturn(List.of(employee));
 
-        assertTrue(employees.isEmpty());
-
-        assertDoesNotThrow(() -> service.salvar(employee));
-
-        employees = assertDoesNotThrow(service::listar);
+        List<Employee> employees = employeeService.listar();
 
         assertFalse(employees.isEmpty());
         assertTrue(employees.contains(employee));
@@ -60,69 +47,83 @@ public class EmployeeServiceTest {
     }
 
     // Nota: esses dois métodos estão testando o "buscar" do service
-    // Mas estão separados para reforçar a independência dos testes como manda o padrão FIRST
+    // Mas estão separados para reforçar a independência dos testes como manda o padrão FIRST: https://hackernoon.com/test-f-i-r-s-t-65e42f3adc17
     @Test
-    public void buscarMalSucedida() {
+    public void buscarMalSucedida() throws IOException {
         String uuid = "11f2105a-4f5b-4a48-bf57-3a4ff8b477b1";
-        assertThrows(EntidadeNaoEncontradaException.class, () -> service.buscar(uuid));
+
+        when(employeeDAO.buscar(uuid)).thenThrow(FileNotFoundException.class);
+
+        Exception exception = assertThrows(EntidadeNaoEncontradaException.class, () -> employeeService.buscar(uuid));
+        assertEquals("não foi possível encontrar o employee", exception.getMessage());
     }
 
     @Test
-    public void buscarBemSucedida() {
+    public void buscarBemSucedida() throws IOException {
         String uuid = employee.getId();
-        assertDoesNotThrow(() -> service.salvar(employee));
 
-        assertDoesNotThrow(() -> service.buscar(uuid));
+        when(employeeDAO.buscar(uuid)).thenReturn(employee);
+
+        Employee employeeSalvo = assertDoesNotThrow(() -> employeeService.buscar(uuid));
+
+        assertEquals(employeeSalvo, employee);
     }
 
     @Test
-    public void salvar() {
-        Employee employeeInvalido = assertDoesNotThrow(
-                () -> new Employee("José", "Silveira", "j.silveira@email.com")
-        );
+    public void salvar() throws IOException, ComprimentoInvalidoException {
+        Employee employeeValido = new Employee("João", "Silveira", "joao.silveira@email.com");
+        Employee employeeInvalido = new Employee("José", "Silveira", "j.silveira@email.com");
 
-        assertDoesNotThrow(() -> service.salvar(employee));
-        assertThrows(EmailInvalidoException.class, () -> service.salvar(employeeInvalido));
+        when(employeeDAO.salvar(employeeValido)).thenReturn(employeeValido);
+        when(employeeDAO.listar()).thenReturn(List.of(employee, employeeValido));
+
+        assertDoesNotThrow(() -> employeeService.salvar(employeeValido));
+        Exception exception = assertThrows(EmailInvalidoException.class, () -> employeeService.salvar(employeeInvalido));
+
+        assertEquals("já existe um employee cadastrado com esse e-mail", exception.getMessage());
     }
 
     @Test
-    public void atualizar() {
-        Employee employee2 = assertDoesNotThrow(
-                () -> new Employee("Bruno", "Silveira", "b.silveira@email.com")
-        );
-        Employee employee3 = assertDoesNotThrow(
-                () -> new Employee("Vitor", "Fernandes", "vf.silveira@email.com")
-        );
+    public void atualizar() throws IOException, ComprimentoInvalidoException, BusinessException, ArquivoException {
+        Employee employee2 = new Employee("Bruno", "Silveira", "b.silveira@email.com");
+        Employee employee3 = new Employee("Vitor", "Fernandes", "vf.silveira@email.com");
 
-        assertDoesNotThrow(() -> service.salvar(employee));
-        assertDoesNotThrow(() -> service.salvar(employee2));
+        when(employeeDAO.salvar(employee)).thenReturn(employee);
+        when(employeeDAO.salvar(employee2)).thenReturn(employee2);
+
+        when(employeeDAO.buscar(employee3.getId())).thenThrow(FileNotFoundException.class);
+
+        employeeService.salvar(employee);
+
+        when(employeeDAO.listar()).thenReturn(List.of(employee));
+
+        employeeService.salvar(employee2);
 
         employee.setEmail("joao.silveira@email.com");
-        Employee employeeSalvo = assertDoesNotThrow(() -> service.atualizar(employee));
+        employee2.setNome("Jean");
+        employee2.setEmail("joao.silveira@email.com");
+
+        Employee employeeSalvo = assertDoesNotThrow(() -> employeeService.atualizar(employee));
 
         assertEquals(employee, employeeSalvo);
+        assertThrows(EntidadeNaoEncontradaException.class, () -> employeeService.atualizar(employee3));
+        Exception exception = assertThrows(EmailInvalidoException.class, () -> employeeService.atualizar(employee2));
 
-        try {
-            employee2.setNome("Jean");
-            employee2.setEmail("joao.silveira@email.com");
-        } catch (ComprimentoInvalidoException ignored) {
-        }
-
-        assertThrows(EmailInvalidoException.class, () -> service.atualizar(employee2));
-        assertThrows(EntidadeNaoEncontradaException.class, () -> service.atualizar(employee3));
+        assertEquals("E-mail ja cadastrado no repositorio", exception.getMessage());
     }
 
     @Test
-    public void apagar() {
-        assertDoesNotThrow(() -> service.salvar(employee));
+    public void apagar() throws IOException, ComprimentoInvalidoException {
+        Employee employee2 = new Employee("Bruno", "Silveira", "b.silveira@email.com");
+        String uuidValido = employee.getId();
+        String uuidInvalido = employee2.getId();
 
-        Employee employee2 = assertDoesNotThrow(
-                () -> new Employee("Bruno", "Silveira", "b.silveira@email.com")
-        );
+        when(employeeDAO.apagar(uuidValido)).thenReturn(true);
+        when(employeeDAO.apagar(uuidInvalido)).thenThrow(FileNotFoundException.class);
 
-        assertThrows(EntidadeNaoEncontradaException.class, () -> service.apagar(employee2.getId()));
+        assertThrows(EntidadeNaoEncontradaException.class, () -> employeeService.apagar(uuidInvalido));
 
-        assertDoesNotThrow(() -> service.apagar(employee.getId()));
+        assertDoesNotThrow(() -> employeeService.apagar(uuidValido));
 
     }
 }
