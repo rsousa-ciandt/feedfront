@@ -78,9 +78,11 @@ public class EmployeeServiceTest {
         when(employeeDAO.listar()).thenReturn(List.of(employee, employeeValido));
 
         assertDoesNotThrow(() -> employeeService.salvar(employeeValido));
-        Exception exception = assertThrows(EmailInvalidoException.class, () -> employeeService.salvar(employeeInvalido));
+        Exception exception1 = assertThrows(EmailInvalidoException.class, () -> employeeService.salvar(employeeInvalido));
+        Exception exception2 = assertThrows(IllegalArgumentException.class, () -> employeeService.salvar(null));
 
-        assertEquals("já existe um employee cadastrado com esse e-mail", exception.getMessage());
+        assertEquals("já existe um employee cadastrado com esse e-mail", exception1.getMessage());
+        assertEquals("employee inválido", exception2.getMessage());
     }
 
     @Test

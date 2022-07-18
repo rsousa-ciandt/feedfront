@@ -25,34 +25,29 @@ public class FeedbackControllerTest {
 
     private Employee proprietario;
 
-    private final FeedbackController controller = new FeedbackController();
+    private FeedbackController controller;
 
     @BeforeEach
-    public void initEach() {
-        try {
-            Files.walk(Paths.get("src/main/resources/data/feedback/"))
-                    .filter(p -> p.toString().endsWith(".byte"))
-                    .forEach(p -> {
-                        new File(p.toString()).delete();
-                    });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void initEach() throws IOException, ComprimentoInvalidoException {
+        Files.walk(Paths.get("src/main/resources/data/feedback/"))
+                .filter(p -> p.toString().endsWith(".byte"))
+                .forEach(p -> {
+                    new File(p.toString()).delete();
+                });
 
-        try {
-            autor = new Employee("João", "Silveira", "j.silveira@email.com");
-            proprietario = new Employee("Mateus", "Santos", "m.santos@email.com");
-        } catch (ComprimentoInvalidoException ignored) {}
+        controller = new FeedbackController();
+        autor = new Employee("João", "Silveira", "j.silveira@email.com");
+        proprietario = new Employee("Mateus", "Santos", "m.santos@email.com");
 
-        feedback = new Feedback(LocalDate.now(),autor,proprietario,"Agradeco muito pelo apoio feito pelo colega!");//construtor 1
+        feedback = new Feedback(LocalDate.now(), autor, proprietario,"Agradeco muito pelo apoio feito pelo colega!");//construtor 1
+
         controller.salvar(feedback);
-
     }
     @Test
     public void listar() {
-        Collection<Feedback> listaFeedback = controller.listar();//tratar como map, usando id como Key para busca na implementação.
+        Collection<Feedback> listaFeedback = controller.listar();
 
-        assertNotNull(listaFeedback);//Intellij está informando que o teste instaceof é redundante, trocar assertNotNull.
+        assertNotNull(listaFeedback);
     }
 
     @Test
@@ -66,7 +61,7 @@ public class FeedbackControllerTest {
 
         Feedback feedbackSalvo = assertDoesNotThrow(() -> controller.buscar(uuid));
 
-        assertEquals(feedback,feedbackSalvo);
+        assertEquals(feedback, feedbackSalvo);
 
     }
 
