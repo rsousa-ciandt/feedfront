@@ -5,8 +5,10 @@ import com.ciandt.feedfront.excecoes.ArquivoException;
 import com.ciandt.feedfront.excecoes.BusinessException;
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
 import com.ciandt.feedfront.excecoes.EntidadeNaoEncontradaException;
-import com.ciandt.feedfront.models.Feedback;
+//import com.ciandt.feedfront.models.Feedback;
 import com.ciandt.feedfront.models.Employee;
+import com.ciandt.feedfront.models.Feedback;
+import com.ciandt.feedfront.utils.LimparRepositorio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,21 +32,24 @@ public class FeedbackServiceTest {
     private Employee proprietario;
 
     private Service<Feedback> service;
+    private Service<Employee> employeeService;
 
     @BeforeEach
-    public void initEach() throws IOException , ComprimentoInvalidoException {
+    public void initEach() throws IOException, BusinessException {
         // Este trecho de código serve somente para limpar o repositório
-        Files.walk(Paths.get("src/main/resources/data/feedback/"))
-                .filter(p -> p.toString().endsWith(".byte"))
-                .forEach(p -> {
-                    new File(p.toString()).delete();
-                });
+        LimparRepositorio.limparRepositorio("src/main/resources/data/feedback/");
+        LimparRepositorio.limparRepositorio("src/main/resources/data/employee/");
 
         service = new FeedbackService();
+        employeeService = new EmployeeService();
+
         autor = new Employee("João", "Silveira", "j.silveira@email.com");
         proprietario = new Employee("Mateus", "Santos", "m.santos@email.com");
 
         feedback = new Feedback(localDate, autor, proprietario, LOREM_IPSUM_FEEDBACK);
+
+        employeeService.salvar(autor);
+        employeeService.salvar(proprietario);
 
         service.salvar(feedback);
     }
@@ -82,7 +87,7 @@ public class FeedbackServiceTest {
 
     @Test
     public void buscar() throws ArquivoException, BusinessException {
-        Feedback feedbackNaoSalvo = new Feedback(localDate, autor, proprietario, "tt");
+        Feedback feedbackNaoSalvo = new Feedback(localDate, autor, proprietario, "ttt");
 
         assertDoesNotThrow(() -> service.buscar(feedback.getId()));
         Exception exception = assertThrows(EntidadeNaoEncontradaException.class, () -> service.buscar(feedbackNaoSalvo.getId()));

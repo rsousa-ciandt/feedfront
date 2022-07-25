@@ -1,8 +1,8 @@
 package com.ciandt.feedfront.daos;
 
 import com.ciandt.feedfront.contracts.DAO;
-import com.ciandt.feedfront.models.Employee;
 import com.ciandt.feedfront.excecoes.EntidadeNaoSerializavelException;
+import com.ciandt.feedfront.models.Feedback;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class EmployeeDAO implements DAO<Employee> {
-    private String repositorioPath = "src/main/resources/data/employee/";
+public class FeedbackDAO implements DAO<Feedback> {
+    private String repositorioPath = "src/main/resources/data/feedback/";
 
     private static ObjectOutputStream getOutputStream(String arquivo) throws IOException {
         return new ObjectOutputStream(new FileOutputStream(arquivo));
@@ -26,20 +26,20 @@ public class EmployeeDAO implements DAO<Employee> {
 
     @Override
     public boolean tipoImplementaSerializable() {
-        return Employee.class instanceof Serializable;
+        return Feedback.class instanceof Serializable;
     }
 
     @Override
-    public List<Employee> listar() throws IOException, EntidadeNaoSerializavelException {
+    public List<Feedback> listar() throws IOException, EntidadeNaoSerializavelException {
         if (!this.tipoImplementaSerializable()) {
-            throw new EntidadeNaoSerializavelException("Employee não é serializável");
+            throw new EntidadeNaoSerializavelException("Feedback não é serializável");
         }
 
-        List<Employee> employees = new ArrayList<>();
+        List<Feedback> feedbacks = new ArrayList<>();
 
         Stream<Path> paths = Files.walk(Paths.get(this.repositorioPath));
 
-        List<String> fileNames = paths
+        List<String> filesNames = paths
                 .map(p -> p.getFileName().toString())
                 .filter(p -> p.endsWith(".byte"))
                 .map(p -> p.replace(".byte", ""))
@@ -47,64 +47,51 @@ public class EmployeeDAO implements DAO<Employee> {
 
         paths.close();
 
-        for (String fileName: fileNames) {
-            employees.add(buscar(fileName));
+        for (String fileName: filesNames) {
+            feedbacks.add(buscar(fileName));
         }
 
-        paths.close();
-
-        return employees;
+        return feedbacks;
     }
 
     @Override
-    public Employee buscar(String id) throws IOException, EntidadeNaoSerializavelException{
+    public Feedback buscar(String id) throws IOException, EntidadeNaoSerializavelException {
         if (!this.tipoImplementaSerializable()) {
             throw new EntidadeNaoSerializavelException("Employee não é serializável");
         }
 
-        Employee employee = null;
+        Feedback feedback = null;
+
         String pathCompleto = this.repositorioPath + id + ".byte";
         ObjectInputStream inputStream = getInputStream(pathCompleto);
 
         try {
-            employee = (Employee) inputStream.readObject();
-
+            feedback = (Feedback) inputStream.readObject();
         } catch (ClassNotFoundException e) {
             throw new IOException(e);
         } finally {
             inputStream.close();
         }
 
-
-        return employee;
+        return feedback;
     }
 
     @Override
-    public Employee salvar(Employee employee) throws IOException, EntidadeNaoSerializavelException {
+    public Feedback salvar(Feedback feedback) throws IOException, EntidadeNaoSerializavelException {
         if (!this.tipoImplementaSerializable()) {
             throw new EntidadeNaoSerializavelException("Employee não é serializável");
         }
 
-        ObjectOutputStream outputStream = getOutputStream(this.repositorioPath + employee.getArquivo());
-        outputStream.writeObject(employee);
+        ObjectOutputStream outputStream = getOutputStream(this.repositorioPath + feedback.getArquivo());
+        outputStream.writeObject(feedback);
 
         outputStream.close();
 
-        return employee;
+        return feedback;
     }
 
     @Override
     public boolean apagar(String id) throws IOException, EntidadeNaoSerializavelException {
-        if (!this.tipoImplementaSerializable()) {
-            throw new EntidadeNaoSerializavelException("Employee não é serializável");
-        }
-
-        Employee employee = buscar(id);
-
-        if (employee == null) {
-            return false;
-        }
-
-        return new File(this.repositorioPath + employee.getArquivo()).delete();
+        throw new UnsupportedOperationException();
     }
 }

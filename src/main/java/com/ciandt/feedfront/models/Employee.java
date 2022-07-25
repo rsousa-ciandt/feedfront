@@ -20,118 +20,17 @@ public class Employee implements Serializable {
     private String nome;
     private String sobrenome;
     private String email;
-    private String arquivo; //TODO: alterar de acordo com a sua implementação
-    private static final String repositorioPath = "src/main/resources/data/employee/"; //TODO: alterar de acordo com a sua implementação
+    private String arquivo;
 
     private static final long serialVersionID = 1;
 
-
     public Employee(String nome, String sobrenome, String email) throws ComprimentoInvalidoException {
         this.id = UUID.randomUUID().toString();
-        this.arquivo = repositorioPath + getId() + ".byte";
+        this.arquivo = getId() + ".byte";
 
         setNome(nome);
         setEmail(email);
         setSobrenome(sobrenome);
-    }
-
-    private static ObjectOutputStream getOutputStream(String arquivo) throws IOException {
-        return new ObjectOutputStream(new FileOutputStream(arquivo));
-    }
-
-    private static ObjectInputStream getInputStream(String arquivo) throws IOException {
-        return new ObjectInputStream(new FileInputStream(arquivo));
-    }
-
-    public static Employee salvarEmployee(Employee employee) throws ArquivoException, EmailInvalidoException {
-        ObjectOutputStream outputStream = null;
-
-        try {
-            List<Employee> employees = listarEmployees();
-
-            boolean emailExistente = false;
-            for (Employee employeeSalvo: employees) {
-                if (!employeeSalvo.getId().equals(employee.getId()) && employeeSalvo.getEmail().equals(employee.getEmail())) {
-                    emailExistente = true;
-                    break;
-                }
-            }
-
-            if (emailExistente) {
-                throw new EmailInvalidoException("E-mail ja cadastrado no repositorio");
-            }
-
-            outputStream = getOutputStream(employee.arquivo);
-            outputStream.writeObject(employee);
-
-            outputStream.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            throw new ArquivoException("");
-        }
-
-        return employee;
-    }
-
-    public static Employee atualizarEmployee(Employee employee) throws ArquivoException, EntidadeNaoEncontradaException, EmailInvalidoException {
-        buscarEmployee(employee.getId());
-
-        return salvarEmployee(employee);
-    }
-
-    public static List<Employee> listarEmployees() throws ArquivoException {
-        List<Employee> employees = new ArrayList<>();
-
-        try {
-            Stream<Path> paths = Files.walk(Paths.get(repositorioPath));
-
-            List<String> files = paths
-                    .map(p -> p.getFileName().toString())
-                    .filter(p -> p.endsWith(".byte"))
-                    .map(p -> p.replace(".byte", ""))
-                    .collect(Collectors.toList());
-
-            for (String file: files) {
-                try {
-                    employees.add(buscarEmployee(file));
-                } catch (EntidadeNaoEncontradaException e) {
-                    // Exception silenciada porque sei que não chegará aqui
-                }
-            }
-
-            paths.close();
-        } catch (IOException e) {
-            throw new ArquivoException("");
-        }
-
-        return employees;
-    }
-
-    public static Employee buscarEmployee(String id) throws ArquivoException, EntidadeNaoEncontradaException {
-        Employee employee;
-        ObjectInputStream inputStream;
-
-        try {
-            inputStream = getInputStream(repositorioPath + id + ".byte");
-            employee = (Employee) inputStream.readObject();
-
-            inputStream.close();
-        } catch (IOException | ClassNotFoundException e) {
-            if (e.getClass().getSimpleName().equals("FileNotFoundException")) {
-                throw new EntidadeNaoEncontradaException("Employee não encontrado");
-            }
-
-            throw new ArquivoException("");
-        }
-
-        return employee;
-    }
-
-    public static void apagarEmployee(String id) throws ArquivoException, EntidadeNaoEncontradaException {
-        buscarEmployee(id);
-
-        new File(String.format("%s%s.byte", repositorioPath, id)).delete();
     }
 
     @Override
@@ -191,4 +90,7 @@ public class Employee implements Serializable {
         return id;
     }
 
+    public String getArquivo() {
+        return arquivo;
+    }
 }
