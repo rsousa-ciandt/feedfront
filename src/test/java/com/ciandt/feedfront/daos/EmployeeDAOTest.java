@@ -37,7 +37,7 @@ public class EmployeeDAOTest {
     }
 
     @Test
-    public void listar() throws IOException {
+    public void listar() {
         List<Employee> result = employeeDAO.listar();
 
         assertFalse(result.isEmpty());
@@ -55,7 +55,7 @@ public class EmployeeDAOTest {
     }
 
     @Test
-    public void salvar() throws IOException, ComprimentoInvalidoException {
+    public void salvar() throws ComprimentoInvalidoException {
         String id = employee.getId();
         Employee employeeSalvo = employeeDAO.buscar(id);
         Employee employeeNaoSalvo = new Employee("Jose", "Silveira", "j.silveira@email.com");
@@ -65,7 +65,7 @@ public class EmployeeDAOTest {
     }
 
     @Test
-    public void atualizarDados() throws IOException, ComprimentoInvalidoException {
+    public void atualizarDados() throws ComprimentoInvalidoException {
         employee.setNome("bruno");
         employee.setEmail("b.silveira@email.com");
 
