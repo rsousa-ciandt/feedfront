@@ -1,11 +1,8 @@
 package com.ciandt.feedfront.controllers;
 
-import com.ciandt.feedfront.contracts.DAO;
 import com.ciandt.feedfront.contracts.Service;
-import com.ciandt.feedfront.controller.EmployeeController;
 import com.ciandt.feedfront.excecoes.ArquivoException;
 import com.ciandt.feedfront.excecoes.BusinessException;
-import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
 import com.ciandt.feedfront.models.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,10 +12,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 // A função do controller é tratar as solicitações.
 // Ser capaz de levar o "pedido" ao "cozinheiro" e me trazer o "prato"

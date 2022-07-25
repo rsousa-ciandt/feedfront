@@ -39,4 +39,9 @@ public class EmployeeService implements Service<Employee> {
     public void apagar(String id) throws ArquivoException, BusinessException {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public void setDAO(DAO<Employee> dao) {
+
+    }
 }
