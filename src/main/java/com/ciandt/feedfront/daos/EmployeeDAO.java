@@ -1,10 +1,8 @@
 package com.ciandt.feedfront.daos;
 
 import com.ciandt.feedfront.contracts.DAO;
-import com.ciandt.feedfront.excecoes.EntidadeNaoSerializavelException;
 import com.ciandt.feedfront.models.Employee;
 
-import java.io.IOException;
 import java.util.List;
 
 public class EmployeeDAO implements DAO<Employee> {
@@ -16,22 +14,22 @@ public class EmployeeDAO implements DAO<Employee> {
     }
 
     @Override
-    public List<Employee> listar() throws IOException, EntidadeNaoSerializavelException {
+    public List<Employee> listar() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Employee buscar(String id) throws IOException, EntidadeNaoSerializavelException{
+    public Employee buscar(String id) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Employee salvar(Employee employee) throws IOException, EntidadeNaoSerializavelException {
+    public Employee salvar(Employee employee) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean apagar(String id) throws IOException, EntidadeNaoSerializavelException {
+    public boolean apagar(String id)  {
         throw new UnsupportedOperationException();
     }
 }
