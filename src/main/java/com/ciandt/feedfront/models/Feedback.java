@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Feedback {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "uuid")
     private String id;
     private LocalDate data;
     private Employee autor;
