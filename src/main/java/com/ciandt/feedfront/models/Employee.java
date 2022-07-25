@@ -1,65 +1,59 @@
 package com.ciandt.feedfront.models;
 
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     private String nome;
     private String sobrenome;
     private String email;
 
+    @OneToMany(mappedBy = "feedback")
+    private List<Feedback> feedbackFeitos;
+
+    @OneToMany(mappedBy = "feedback")
+    private List<Feedback> feedbackRecebidos;
+
     public Employee() {
-        this.id = UUID.randomUUID().toString();
     }
 
     public Employee(String nome, String sobrenome, String email) throws ComprimentoInvalidoException {
-        this();
-
-        setNome(nome);
-        setEmail(email);
-        setSobrenome(sobrenome);
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-
-        Employee employee = (Employee) obj;
-
-        return getId().equals(employee.getId());
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public int hashCode() {
-        return 31 * 7 + ((id == null) ?  0 : id.hashCode());
+        throw new UnsupportedOperationException();
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) throws ComprimentoInvalidoException {
-        if (nome.length() < 3) {
-            throw new ComprimentoInvalidoException("Comprimento do nome deve ser maior que 2 caracteres.");
-        }
-
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
@@ -67,11 +61,7 @@ public class Employee {
         return sobrenome;
     }
 
-    public void setSobrenome(String sobrenome) throws ComprimentoInvalidoException {
-        if (sobrenome.length() < 3) {
-            throw new ComprimentoInvalidoException("Comprimento do sobrenome deve ser maior que 2 caracteres.");
-        }
-
+    public void setSobrenome(String sobrenome) {
         this.sobrenome = sobrenome;
     }
 
@@ -82,11 +72,6 @@ public class Employee {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getId() {
-        return id;
-    }
-
 
     @Override
     public String toString() {
