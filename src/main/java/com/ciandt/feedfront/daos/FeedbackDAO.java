@@ -1,10 +1,8 @@
 package com.ciandt.feedfront.daos;
 
 import com.ciandt.feedfront.contracts.DAO;
-import com.ciandt.feedfront.excecoes.EntidadeNaoSerializavelException;
 import com.ciandt.feedfront.models.Feedback;
 
-import java.io.IOException;
 import java.util.List;
 
 public class FeedbackDAO implements DAO<Feedback> {
@@ -14,22 +12,22 @@ public class FeedbackDAO implements DAO<Feedback> {
     }
 
     @Override
-    public List<Feedback> listar() throws IOException, EntidadeNaoSerializavelException {
+    public List<Feedback> listar() {
         return null;
     }
 
     @Override
-    public Feedback buscar(String id) throws IOException, EntidadeNaoSerializavelException {
+    public Feedback buscar(String id){
         return null;
     }
 
     @Override
-    public Feedback salvar(Feedback feedback) throws IOException, EntidadeNaoSerializavelException {
+    public Feedback salvar(Feedback feedback) {
         return null;
     }
 
     @Override
-    public boolean apagar(String id) throws IOException, EntidadeNaoSerializavelException {
+    public boolean apagar(String id){
         return false;
     }
 }

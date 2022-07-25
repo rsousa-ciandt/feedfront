@@ -1,5 +1,7 @@
 package com.ciandt.feedfront.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,7 +11,7 @@ import java.time.LocalDate;
 public class Feedback {
 
     @Id
-    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     private LocalDate data;
     private Employee autor;
