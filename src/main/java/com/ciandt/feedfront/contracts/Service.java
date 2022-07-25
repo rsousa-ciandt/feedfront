@@ -1,20 +1,19 @@
 package com.ciandt.feedfront.contracts;
 
-import com.ciandt.feedfront.excecoes.ArquivoException;
 import com.ciandt.feedfront.excecoes.BusinessException;
-import com.ciandt.feedfront.models.Employee;
 
 import java.util.List;
 
 public interface Service<E> {
-    List<E> listar() throws ArquivoException;
+    List<E> listar();
 
-    E buscar(String id) throws ArquivoException, BusinessException;
+    E buscar(String id) throws BusinessException;
 
-    E salvar(E e) throws ArquivoException, BusinessException, IllegalArgumentException;
+    E salvar(E e) throws BusinessException, IllegalArgumentException;
 
-    E atualizar(E e) throws ArquivoException, BusinessException, IllegalArgumentException;
+    E atualizar(E e) throws BusinessException, IllegalArgumentException;
 
-    void apagar(String id) throws ArquivoException, BusinessException;
+    void apagar(String id) throws BusinessException;
+
     void setDAO(DAO<E> dao);
 }
