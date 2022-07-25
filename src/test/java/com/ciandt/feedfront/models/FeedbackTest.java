@@ -1,7 +1,6 @@
-package com.ciandt.feedfront.employee;
+package com.ciandt.feedfront.models;
 
 
-import com.ciandt.feedfront.excecoes.ArquivoException;
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
 import com.ciandt.feedfront.excecoes.EmailInvalidoException;
 import com.ciandt.feedfront.excecoes.EmployeeNaoEncontradoException;
@@ -17,7 +16,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EmployeeTest {
+public class FeedbackTest {
 
     public Employee employee1;
     public Employee employee2;

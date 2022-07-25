@@ -2,7 +2,6 @@ package com.ciandt.feedfront.controllers;
 
 import com.ciandt.feedfront.contracts.Service;
 import com.ciandt.feedfront.excecoes.BusinessException;
-import com.ciandt.feedfront.models.Employee;
 import com.ciandt.feedfront.models.Feedback;
 
 import java.util.List;
