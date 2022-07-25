@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +24,7 @@ public class EmployeeServiceTest {
 
     @BeforeEach
     @SuppressWarnings("unchecked")
-    public void initEach() throws IOException, BusinessException {
+    public void initEach() throws BusinessException {
         employeeService = new EmployeeService();
         employeeDAO = (DAO<Employee>) Mockito.mock(DAO.class);
         employee = new Employee("João", "Silveira", "j.silveira@email.com");
@@ -36,7 +35,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void listar() throws IOException {
+    public void listar() {
         when(employeeDAO.listar()).thenReturn(List.of(employee));
 
         List<Employee> employees = employeeService.listar();
@@ -49,7 +48,7 @@ public class EmployeeServiceTest {
     // Nota: esses dois métodos estão testando o "buscar" do service
     // Mas estão separados para reforçar a independência dos testes como manda o padrão FIRST: https://hackernoon.com/test-f-i-r-s-t-65e42f3adc17
     @Test
-    public void buscarMalSucedida() throws IOException {
+    public void buscarMalSucedida() {
         String uuid = "11f2105a-4f5b-4a48-bf57-3a4ff8b477b1";
 
         when(employeeDAO.buscar(uuid)).thenThrow(FileNotFoundException.class);
@@ -59,7 +58,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void buscarBemSucedida() throws IOException {
+    public void buscarBemSucedida() {
         String uuid = employee.getId();
 
         when(employeeDAO.buscar(uuid)).thenReturn(employee);
@@ -70,7 +69,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void salvar() throws IOException, ComprimentoInvalidoException {
+    public void salvar() throws ComprimentoInvalidoException {
         Employee employeeValido = new Employee("João", "Silveira", "joao.silveira@email.com");
         Employee employeeInvalido = new Employee("José", "Silveira", "j.silveira@email.com");
 
@@ -86,7 +85,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void atualizar() throws IOException, ComprimentoInvalidoException, BusinessException, ArquivoException {
+    public void atualizar() throws ComprimentoInvalidoException, BusinessException {
         Employee employee2 = new Employee("Bruno", "Silveira", "b.silveira@email.com");
         Employee employee3 = new Employee("Vitor", "Fernandes", "vf.silveira@email.com");
 
@@ -115,7 +114,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void apagar() throws IOException, ComprimentoInvalidoException {
+    public void apagar() throws ComprimentoInvalidoException {
         Employee employee2 = new Employee("Bruno", "Silveira", "b.silveira@email.com");
         String uuidValido = employee.getId();
         String uuidInvalido = employee2.getId();

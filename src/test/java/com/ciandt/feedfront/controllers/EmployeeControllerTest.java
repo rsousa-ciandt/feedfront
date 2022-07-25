@@ -1,14 +1,12 @@
 package com.ciandt.feedfront.controllers;
 
 import com.ciandt.feedfront.contracts.Service;
-import com.ciandt.feedfront.excecoes.ArquivoException;
 import com.ciandt.feedfront.excecoes.BusinessException;
 import com.ciandt.feedfront.models.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class EmployeeControllerTest {
 
     @BeforeEach
     @SuppressWarnings("unchecked")
-    public void initEach() throws ArquivoException, BusinessException {
+    public void initEach() throws BusinessException {
         employeeController = new EmployeeController();
         employeeService = (Service<Employee>) Mockito.mock(Service.class);
         employee = new Employee("João", "Silveira", "j.silveira@email.com");
@@ -42,7 +40,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void buscar() throws IOException, BusinessException {
+    public void buscar() throws BusinessException {
         String uuid = employee.getId();
         when(employeeService.buscar(uuid)).thenReturn(employee);
 
@@ -52,7 +50,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void salvar() throws IOException, BusinessException {
+    public void salvar() throws BusinessException {
         when(employeeService.salvar(employee)).thenReturn(employee);
 
         Employee employeeSalvo = assertDoesNotThrow(() -> employeeController.salvar(employee));
@@ -61,7 +59,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void atualizar() throws IOException, BusinessException {
+    public void atualizar() throws BusinessException {
         String uuid = employee.getId();
         employee.setEmail("joao.silveira@email.com");
 
@@ -74,7 +72,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void apagar() throws IOException, BusinessException {
+    public void apagar() throws BusinessException {
         String uuid = employee.getId();
         when(employeeService.buscar(uuid)).thenReturn(employee);
 
