@@ -1,6 +1,7 @@
 package com.ciandt.feedfront.controllers;
 
 //import com.ciandt.feedfront.controllers.FeedbackController;
+import com.ciandt.feedfront.contracts.Service;
 import com.ciandt.feedfront.controller.EmployeeController;
 import com.ciandt.feedfront.controller.FeedbackController;
 import com.ciandt.feedfront.excecoes.ArquivoException;
@@ -9,9 +10,12 @@ import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
 import com.ciandt.feedfront.models.Employee;
 //import com.ciandt.feedfront.models.Feedback;
 import com.ciandt.feedfront.models.Feedback;
+import com.ciandt.feedfront.services.FeedbackService;
 import com.ciandt.feedfront.utils.LimparRepositorio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +24,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 
 import java.util.Collection;
+import static org.mockito.Mockito.when;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,26 +37,25 @@ public class FeedbackControllerTest {
     private Employee proprietario;
 
     private FeedbackController controller;
-    private EmployeeController employeeController;
+    private Service<Feedback> feedbackService;
 
     @BeforeEach
+    @SuppressWarnings("unchecked")
     public void initEach() throws IOException, BusinessException {
-        LimparRepositorio.limparRepositorio("src/main/resources/data/feedback/");
-        LimparRepositorio.limparRepositorio("src/main/resources/data/employee/");
+        feedbackService = (Service<Feedback>) Mockito.mock(Service.class);
 
         controller = new FeedbackController();
-        employeeController = new EmployeeController();
+        controller.setService(feedbackService);
 
         autor = new Employee("João", "Silveira", "j.silveira@email.com");
         proprietario = new Employee("Mateus", "Santos", "m.santos@email.com");
 
         feedback = new Feedback(LocalDate.now(), autor, proprietario,"Agradeco muito pelo apoio feito pelo colega!");//construtor 1
 
-        employeeController.salvar(autor);
-        employeeController.salvar(proprietario);
-
+        when(feedbackService.salvar(feedback)).thenReturn(feedback);
         controller.salvar(feedback);
     }
+
     @Test
     public void listar() throws ArquivoException {
         Collection<Feedback> listaFeedback = controller.listar();
@@ -65,13 +69,12 @@ public class FeedbackControllerTest {
     }
 
     @Test
-    public void buscar() {
+    public void buscar() throws BusinessException, ArquivoException {
         String uuid = feedback.getId();
 
+        when(feedbackService.buscar(uuid)).thenReturn(feedback);
         Feedback feedbackSalvo = assertDoesNotThrow(() -> controller.buscar(uuid));
 
         assertEquals(feedback, feedbackSalvo);
-
     }
-
 }
