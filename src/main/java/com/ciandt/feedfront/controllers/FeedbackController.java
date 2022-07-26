@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FeedbackController {
 
-    private Service<Feedback> feedbackService;
+    private Service<Feedback> service;
 
     public List<Feedback> listar() {
         throw new UnsupportedOperationException();

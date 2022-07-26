@@ -41,6 +41,6 @@ public class EmployeeService implements Service<Employee> {
 
     @Override
     public void setDAO(DAO<Employee> dao) {
-
+        throw new UnsupportedOperationException();
     }
 }

@@ -6,13 +6,6 @@ import com.ciandt.feedfront.models.Employee;
 import java.util.List;
 
 public class EmployeeDAO implements DAO<Employee> {
-    private String repositorioPath = "";
-
-    @Override
-    public boolean tipoImplementaSerializable() {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
     public List<Employee> listar() {
         throw new UnsupportedOperationException();

@@ -7,27 +7,22 @@ import java.util.List;
 
 public class FeedbackDAO implements DAO<Feedback> {
     @Override
-    public boolean tipoImplementaSerializable() {
-        return false;
-    }
-
-    @Override
     public List<Feedback> listar() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Feedback buscar(String id){
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Feedback salvar(Feedback feedback) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean apagar(String id){
-        return false;
+        throw new UnsupportedOperationException();
     }
 }
