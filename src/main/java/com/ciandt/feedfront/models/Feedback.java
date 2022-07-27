@@ -30,6 +30,10 @@ public class Feedback {
         throw new UnsupportedOperationException();
     }
 
+    public Feedback(LocalDate data, Employee autor, Employee proprietario, String descricao, String oQueMelhora, String comoMelhora) throws ComprimentoInvalidoException {
+        throw new UnsupportedOperationException();
+    }
+
     public Long getId() {
         return id;
     }
