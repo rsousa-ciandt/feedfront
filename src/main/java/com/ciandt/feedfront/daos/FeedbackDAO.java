@@ -5,6 +5,7 @@ import com.ciandt.feedfront.models.Feedback;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 public class FeedbackDAO implements DAO<Feedback> {
     private EntityManager entityManager;
@@ -15,7 +16,7 @@ public class FeedbackDAO implements DAO<Feedback> {
     }
 
     @Override
-    public Feedback buscar(long id) {
+    public Optional<Feedback> buscar(long id) {
         throw new UnsupportedOperationException();
     }
 

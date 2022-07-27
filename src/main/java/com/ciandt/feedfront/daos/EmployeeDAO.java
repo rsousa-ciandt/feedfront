@@ -4,8 +4,8 @@ import com.ciandt.feedfront.contracts.DAO;
 import com.ciandt.feedfront.models.Employee;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.util.List;
+import java.util.Optional;
 
 public class EmployeeDAO implements DAO<Employee> {
     private EntityManager entityManager;
@@ -19,7 +19,7 @@ public class EmployeeDAO implements DAO<Employee> {
     }
 
     @Override
-    public Employee buscar(long id) {
+    public Optional<Employee> buscar(long id) {
         throw new UnsupportedOperationException();
     }
 
