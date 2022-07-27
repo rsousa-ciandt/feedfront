@@ -11,17 +11,16 @@ import java.util.UUID;
 @Entity
 public class Employee {
     @Id
-    @GeneratedValue
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nome;
     private String sobrenome;
     private String email;
 
-    @OneToMany(mappedBy = "feedback")
+    @OneToMany(mappedBy = "autor", fetch = FetchType.LAZY)
     private List<Feedback> feedbackFeitos;
 
-    @OneToMany(mappedBy = "feedback")
+    @OneToMany(mappedBy = "proprietario", fetch = FetchType.LAZY)
     private List<Feedback> feedbackRecebidos;
 
     public Employee() {
@@ -41,11 +40,11 @@ public class Employee {
         throw new UnsupportedOperationException();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -73,8 +72,25 @@ public class Employee {
         this.email = email;
     }
 
+    public List<Feedback> getFeedbackFeitos() {
+        return feedbackFeitos;
+    }
+
+    public List<Feedback> getFeedbackRecebidos() {
+        return feedbackRecebidos;
+    }
+
+    public void setFeedbackFeitos(List<Feedback> feedbackFeitos) {
+        this.feedbackFeitos = feedbackFeitos;
+    }
+
+    public void setFeedbackRecebidos(List<Feedback> feedbackRecebidos) {
+        this.feedbackRecebidos = feedbackRecebidos;
+    }
+
+
     @Override
     public String toString() {
-        return String.format("%s %s %s", nome, sobrenome, email);
+        return String.format("%s: \n\t%s %s %s", getId(), nome, sobrenome, email);
     }
 }

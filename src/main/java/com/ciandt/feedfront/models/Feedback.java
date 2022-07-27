@@ -1,27 +1,26 @@
 package com.ciandt.feedfront.models;
 
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 public class Feedback {
     @Id
-    @GeneratedValue
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String descricao;
     private String oQueMelhora;
     private String comoMelhora;
     private LocalDate data;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "autor_id")
     private Employee autor;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "proprietario_id", nullable = false)
     private Employee proprietario;
 
     public Feedback() {
@@ -31,11 +30,11 @@ public class Feedback {
         throw new UnsupportedOperationException();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
