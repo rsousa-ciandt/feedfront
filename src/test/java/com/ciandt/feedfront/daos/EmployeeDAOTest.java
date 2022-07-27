@@ -39,6 +39,7 @@ public class EmployeeDAOTest {
         employee.setFeedbackRecebidos(List.of());
 
         entityManager.getTransaction().begin();
+        entityManager.createQuery("delete from Feedback f where 1 = 1").executeUpdate();
         entityManager.createQuery("delete from Employee e where 1 = 1").executeUpdate();
         entityManager.getTransaction().commit();
 
