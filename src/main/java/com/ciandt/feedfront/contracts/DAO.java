@@ -1,14 +1,16 @@
 package com.ciandt.feedfront.contracts;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
-public interface DAO<E> {
-    List<E> listar();
+public interface DAO<T> {
+    List<T> listar();
 
-    E buscar(String id);
+    T buscar(long id);
 
-    E salvar(E e);
+    T salvar(T t);
 
-    boolean apagar(String id);
+    boolean apagar(long id);
 
+    void setEntityManager(EntityManager entityManager);
 }

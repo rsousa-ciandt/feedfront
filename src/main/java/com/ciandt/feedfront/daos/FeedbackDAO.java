@@ -3,16 +3,19 @@ package com.ciandt.feedfront.daos;
 import com.ciandt.feedfront.contracts.DAO;
 import com.ciandt.feedfront.models.Feedback;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public class FeedbackDAO implements DAO<Feedback> {
+    private EntityManager entityManager;
+
     @Override
     public List<Feedback> listar() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Feedback buscar(String id){
+    public Feedback buscar(long id) {
         throw new UnsupportedOperationException();
     }
 
@@ -22,7 +25,11 @@ public class FeedbackDAO implements DAO<Feedback> {
     }
 
     @Override
-    public boolean apagar(String id){
+    public boolean apagar(long id) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setEntityManager(EntityManager entityManager) {
     }
 }
