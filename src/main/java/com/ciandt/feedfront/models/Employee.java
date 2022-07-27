@@ -1,24 +1,15 @@
 package com.ciandt.feedfront.models;
 
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
-@Entity
 public class Employee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
     private String nome;
 
-    @Column
     private String sobrenome;
 
     @Column(unique = true)

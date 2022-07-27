@@ -5,10 +5,7 @@ import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity
 public class Feedback {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String descricao;
     private String oQueMelhora;
