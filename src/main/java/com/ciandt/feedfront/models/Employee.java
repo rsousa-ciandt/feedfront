@@ -86,9 +86,5 @@ public class Employee {
         this.feedbackRecebidos = feedbackRecebidos;
     }
 
-
-    @Override
-    public String toString() {
-        return String.format("%s: \n\t%s %s %s", getId(), nome, sobrenome, email);
-    }
+    // TODO: implementar toString
 }

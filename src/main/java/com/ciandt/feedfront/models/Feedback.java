@@ -86,4 +86,6 @@ public class Feedback {
     public void setProprietario(Employee proprietario) {
         this.proprietario = proprietario;
     }
+
+    // TODO: implementar toString
 }
