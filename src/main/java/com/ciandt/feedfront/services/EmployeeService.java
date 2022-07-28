@@ -20,7 +20,7 @@ public class EmployeeService implements Service<Employee> {
     }
 
     @Override
-    public Employee buscar(String id) throws BusinessException {
+    public Employee buscar(long id) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 
@@ -35,7 +35,7 @@ public class EmployeeService implements Service<Employee> {
     }
 
     @Override
-    public void apagar(String id) throws BusinessException {
+    public void apagar(long id) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 

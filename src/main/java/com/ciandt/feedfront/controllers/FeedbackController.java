@@ -14,7 +14,7 @@ public class FeedbackController {
         throw new UnsupportedOperationException();
     }
 
-    public Feedback buscar(String id) throws BusinessException {
+    public Feedback buscar(long id) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 

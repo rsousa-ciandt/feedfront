@@ -17,7 +17,7 @@ public class EmployeeController {
         throw new UnsupportedOperationException();
     }
 
-    public Employee buscar(String id) throws BusinessException {
+    public Employee buscar(long id) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 
@@ -29,7 +29,7 @@ public class EmployeeController {
         throw new UnsupportedOperationException();
     }
 
-    public void apagar(String id) throws BusinessException {
+    public void apagar(long id) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 

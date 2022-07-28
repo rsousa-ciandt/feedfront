@@ -18,7 +18,7 @@ public class FeedbackService implements Service<Feedback> {
     }
 
     @Override
-    public Feedback buscar(String id) throws BusinessException {
+    public Feedback buscar(long id) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 
@@ -33,7 +33,7 @@ public class FeedbackService implements Service<Feedback> {
     }
 
     @Override
-    public void apagar(String id) throws BusinessException {
+    public void apagar(long id) throws BusinessException {
         throw new UnsupportedOperationException(); // não implementar o método
     }
 
