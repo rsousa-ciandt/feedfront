@@ -89,8 +89,6 @@ public class EmployeeDAOTest {
 
         Employee employeAtualizado = employeeDAO.salvar(employee);
 
-        System.out.println(employee);
-        System.out.println(employeAtualizado);
         assertEquals(employeAtualizado.getNome(), employee.getNome());
         assertEquals(employeAtualizado.getEmail(), employee.getEmail());
     }
