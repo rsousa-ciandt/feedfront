@@ -5,6 +5,8 @@ import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
 import com.ciandt.feedfront.models.Employee;
 import com.ciandt.feedfront.models.Feedback;
 import org.hibernate.PropertyValueException;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,6 +53,11 @@ public class FeedbackDAOTest {
         entityManager.getTransaction().commit();
 
         feedbackDAO.salvar(feedback);
+    }
+
+    @AfterEach
+    public void closeEntityManager() {
+        entityManager.close();
     }
 
     @Test

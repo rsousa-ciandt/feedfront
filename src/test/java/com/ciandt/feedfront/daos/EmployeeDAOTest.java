@@ -4,6 +4,7 @@ import com.ciandt.feedfront.contracts.DAO;
 import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
 import com.ciandt.feedfront.models.Employee;
 import org.hibernate.exception.ConstraintViolationException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
@@ -44,6 +45,11 @@ public class EmployeeDAOTest {
         entityManager.getTransaction().commit();
 
         employeeDAO.salvar(employee);
+    }
+
+    @AfterEach
+    public void closeEntityManager() {
+        entityManager.close();
     }
 
     @Test
