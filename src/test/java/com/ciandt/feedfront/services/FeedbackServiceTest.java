@@ -1,12 +1,10 @@
 package com.ciandt.feedfront.services;
 
-import com.ciandt.feedfront.contracts.DAO;
-import com.ciandt.feedfront.contracts.Service;
-import com.ciandt.feedfront.excecoes.BusinessException;
-import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
-import com.ciandt.feedfront.excecoes.EntidadeNaoEncontradaException;
-import com.ciandt.feedfront.models.Feedback;
-import com.ciandt.feedfront.models.Employee;
+import com.ciandt.feedfront.repositories.EmployeeRepository;
+import com.ciandt.feedfront.exceptions.BusinessException;
+import com.ciandt.feedfront.exceptions.EntidadeNaoEncontradaException;
+import com.ciandt.feedfront.model.FeedbackEntity;
+import com.ciandt.feedfront.model.EmployeeEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,29 +17,29 @@ import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FeedbackServiceTest {
-    private Employee autor;
-    private Employee proprietario;
+    private EmployeeEntity autor;
+    private EmployeeEntity proprietario;
 
-    private Feedback feedback;
+    private FeedbackEntity feedback;
 
-    private DAO<Feedback> feedbackDAO;
-    private FeedbackService feedbackService;
-    private Service<Employee> employeeService;
+    private EmployeeRepository<FeedbackEntity> feedbackDAO;
+    private FeedbackServiceImpl feedbackService;
+    private Service<EmployeeEntity> employeeService;
 
     @BeforeEach
     @SuppressWarnings("unchecked")
     public void setup() throws BusinessException {
-        feedbackDAO = (DAO<Feedback>) Mockito.mock(DAO.class);
-        employeeService = (Service<Employee>) Mockito.mock(Service.class);
+        feedbackDAO = (EmployeeRepository<FeedbackEntity>) Mockito.mock(EmployeeRepository.class);
+        employeeService = (Service<EmployeeEntity>) Mockito.mock(Service.class);
 
-        feedbackService = new FeedbackService();
+        feedbackService = new FeedbackServiceImpl();
         feedbackService.setDAO(feedbackDAO);
         feedbackService.setEmployeeService(employeeService);
 
-        autor = new Employee("João", "Silveira", "j.silveira@email.com");
-        proprietario = new Employee("Mateus", "Santos", "m.santos@email.com");
+        autor = new EmployeeEntity("João", "Silveira", "j.silveira@email.com");
+        proprietario = new EmployeeEntity("Mateus", "Santos", "m.santos@email.com");
 
-        feedback = new Feedback(LocalDate.now(), autor, proprietario, "descrição");
+        feedback = new FeedbackEntity(LocalDate.now(), autor, proprietario, "descrição");
 
         autor.setId(1L);
         feedback.setId(1L);
@@ -57,7 +55,7 @@ public class FeedbackServiceTest {
     public void listar() {
         when(feedbackDAO.listar()).thenReturn(List.of(feedback));
 
-        List<Feedback> lista = assertDoesNotThrow(() -> feedbackService.listar());
+        List<FeedbackEntity> lista = assertDoesNotThrow(() -> feedbackService.listar());
 
         assertFalse(lista.isEmpty());
         assertTrue(lista.contains(feedback));
@@ -80,14 +78,14 @@ public class FeedbackServiceTest {
 
     @Test
     public void salvar() throws BusinessException {
-        Employee employeeNaoSalvo = new Employee("miguel", "vitor", "m.vitor@email.com");
+        EmployeeEntity employeeNaoSalvo = new EmployeeEntity("miguel", "vitor", "m.vitor@email.com");
         employeeNaoSalvo.setId(-1L);
 
-        Feedback feedbackValido1 = new Feedback(LocalDate.now(), autor, proprietario, "descrição");
-        Feedback feedbackValido2 = new Feedback(LocalDate.now(), autor, proprietario, "descrição");
+        FeedbackEntity feedbackValido1 = new FeedbackEntity(LocalDate.now(), autor, proprietario, "descrição");
+        FeedbackEntity feedbackValido2 = new FeedbackEntity(LocalDate.now(), autor, proprietario, "descrição");
 
-        Feedback feedbackInvalido1 = new Feedback(LocalDate.now(), null, null,"feedback sem autor e proprietario");
-        Feedback feedbackInvalido2 = new Feedback(LocalDate.now(), null, employeeNaoSalvo,"feedback sem autor e proprietario");
+        FeedbackEntity feedbackInvalido1 = new FeedbackEntity(LocalDate.now(), null, null,"feedback sem autor e proprietario");
+        FeedbackEntity feedbackInvalido2 = new FeedbackEntity(LocalDate.now(), null, employeeNaoSalvo,"feedback sem autor e proprietario");
 
         when(feedbackDAO.salvar(feedbackValido1)).thenReturn(feedbackValido1);
         when(feedbackDAO.salvar(feedbackValido2)).thenReturn(feedbackValido2);

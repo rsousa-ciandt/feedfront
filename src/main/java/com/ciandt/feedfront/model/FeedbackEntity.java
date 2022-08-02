@@ -1,33 +1,45 @@
-package com.ciandt.feedfront.models;
+package com.ciandt.feedfront.model;
 
-import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
+import com.ciandt.feedfront.exceptions.ComprimentoInvalidoException;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-public class Feedback {
+//TODO: UTILIZE ANOTAÇÕES DO LOMBOK COMO @ALLARGSCONSTRUTOR E RETIRE O QUE NÃO FOR MAIS NECESSÁRIO COMO O CONSTRUTOR COM TODOS OS ARGUMENTOS. DEIXE SEU CÓDIGO MAIS SUSCINTO.
+
+
+
+@Table(name = "Feedback")
+public class FeedbackEntity {
+    @Column
     private Long id;
+    @Column
     private String descricao;
+    @Column
     private String oQueMelhora;
+    @Column
     private String comoMelhora;
+    @Column
     private LocalDate data;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne //(fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id")
-    private Employee autor;
+    private EmployeeEntity autor;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne //(fetch = FetchType.EAGER)
     @JoinColumn(name = "proprietario_id", nullable = false)
-    private Employee proprietario;
+    private EmployeeEntity proprietario;
 
-    public Feedback() {
+    public FeedbackEntity() {
     }
 
-    public Feedback(LocalDate data, Employee autor, Employee proprietario, String descricao) throws ComprimentoInvalidoException {
+    public FeedbackEntity(LocalDate data, EmployeeEntity autor, EmployeeEntity proprietario, String descricao) throws ComprimentoInvalidoException {
         throw new UnsupportedOperationException();
     }
 
-    public Feedback(LocalDate data, Employee autor, Employee proprietario, String descricao, String oQueMelhora, String comoMelhora) throws ComprimentoInvalidoException {
+    public FeedbackEntity(LocalDate data, EmployeeEntity autor, EmployeeEntity proprietario, String descricao, String oQueMelhora, String comoMelhora) throws ComprimentoInvalidoException {
         throw new UnsupportedOperationException();
     }
 
@@ -71,21 +83,5 @@ public class Feedback {
         this.data = data;
     }
 
-    public Employee getAutor() {
-        return autor;
-    }
 
-    public void setAutor(Employee autor) {
-        this.autor = autor;
-    }
-
-    public Employee getProprietario() {
-        return proprietario;
-    }
-
-    public void setProprietario(Employee proprietario) {
-        this.proprietario = proprietario;
-    }
-
-    // TODO: implementar toString
 }

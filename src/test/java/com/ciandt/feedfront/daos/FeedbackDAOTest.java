@@ -1,11 +1,10 @@
 package com.ciandt.feedfront.daos;
 
-import com.ciandt.feedfront.contracts.DAO;
-import com.ciandt.feedfront.excecoes.ComprimentoInvalidoException;
-import com.ciandt.feedfront.models.Employee;
-import com.ciandt.feedfront.models.Feedback;
+import com.ciandt.feedfront.repositories.EmployeeRepository;
+import com.ciandt.feedfront.exceptions.ComprimentoInvalidoException;
+import com.ciandt.feedfront.model.EmployeeEntity;
+import com.ciandt.feedfront.model.FeedbackEntity;
 import org.hibernate.PropertyValueException;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,11 +22,11 @@ import static org.junit.jupiter.api.Assertions.*;
 // O DAO é resposável pela persistência dos dados
 // Com esse mecanismo de persistência (arquivos), não possui responsabilidades de validar regras
 public class FeedbackDAOTest {
-    private Employee autor;
-    private Employee proprietario;
-    private Feedback feedback;
+    private EmployeeEntity autor;
+    private EmployeeEntity proprietario;
+    private FeedbackEntity feedback;
 
-    private DAO<Feedback> feedbackDAO;
+    private EmployeeRepository<FeedbackEntity> feedbackDAO;
     private EntityManager entityManager;
 
     @BeforeEach
@@ -39,10 +38,10 @@ public class FeedbackDAOTest {
         feedbackDAO = new FeedbackDAO();
         feedbackDAO.setEntityManager(entityManager);
 
-        autor = new Employee("joao", "silveira", "j.silveira@email.com");
-        proprietario = new Employee("joao", "bruno", "j.bruno@email.com");
+        autor = new EmployeeEntity("joao", "silveira", "j.silveira@email.com");
+        proprietario = new EmployeeEntity("joao", "bruno", "j.bruno@email.com");
 
-        feedback = new Feedback(LocalDate.now(), autor, proprietario, "descrição");
+        feedback = new FeedbackEntity(LocalDate.now(), autor, proprietario, "descrição");
 
         entityManager.getTransaction().begin();
         entityManager.createQuery("delete from Feedback f where 1 = 1").executeUpdate();
@@ -62,7 +61,7 @@ public class FeedbackDAOTest {
 
     @Test
     public void listar() {
-        List<Feedback> result = feedbackDAO.listar();
+        List<FeedbackEntity> result = feedbackDAO.listar();
 
         assertFalse(result.isEmpty());
     }
@@ -72,8 +71,8 @@ public class FeedbackDAOTest {
         long idInvalido = -1;
         long idValido = feedback.getId();
 
-        Optional<Feedback> vazio = feedbackDAO.buscar(idInvalido);
-        Optional<Feedback> preenchido = feedbackDAO.buscar(idValido);
+        Optional<FeedbackEntity> vazio = feedbackDAO.buscar(idInvalido);
+        Optional<FeedbackEntity> preenchido = feedbackDAO.buscar(idValido);
 
         assertTrue(vazio.isEmpty());
         assertTrue(preenchido.isPresent());
@@ -82,10 +81,10 @@ public class FeedbackDAOTest {
 
     @Test
     public void salvar() throws ComprimentoInvalidoException {
-        Feedback feedbackValido1 = new Feedback(LocalDate.now(), null, proprietario, "descrição");
-        Feedback feedbackValido2 = new Feedback(LocalDate.now(), null, proprietario, "descrição", "oque", "como");
+        FeedbackEntity feedbackValido1 = new FeedbackEntity(LocalDate.now(), null, proprietario, "descrição");
+        FeedbackEntity feedbackValido2 = new FeedbackEntity(LocalDate.now(), null, proprietario, "descrição", "oque", "como");
 
-        Feedback feedbackInvalido = new Feedback(LocalDate.now(), null, null, "descrição");
+        FeedbackEntity feedbackInvalido = new FeedbackEntity(LocalDate.now(), null, null, "descrição");
 
         assertDoesNotThrow(() -> feedbackDAO.salvar(feedbackValido1));
         assertDoesNotThrow(() -> feedbackDAO.salvar(feedbackValido2));

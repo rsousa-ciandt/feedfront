@@ -1,8 +1,8 @@
 package com.ciandt.feedfront.controllers;
 
-import com.ciandt.feedfront.contracts.Service;
-import com.ciandt.feedfront.excecoes.BusinessException;
-import com.ciandt.feedfront.models.Employee;
+import com.ciandt.feedfront.services.Service;
+import com.ciandt.feedfront.exceptions.BusinessException;
+import com.ciandt.feedfront.model.EmployeeEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,16 +16,16 @@ import static org.mockito.Mockito.when;
 // A função do controller é tratar as solicitações.
 // Ser capaz de levar o "pedido" ao "cozinheiro" e me trazer o "prato"
 public class EmployeeControllerTest {
-    private Employee employee;
+    private EmployeeEntity employee;
     private EmployeeController employeeController;
-    private Service<Employee> employeeService;
+    private Service<EmployeeEntity> employeeService;
 
     @BeforeEach
     @SuppressWarnings("unchecked")
     public void setup() throws BusinessException {
         employeeController = new EmployeeController();
-        employeeService = (Service<Employee>) Mockito.mock(Service.class);
-        employee = new Employee("João", "Silveira", "j.silveira@email.com");
+        employeeService = (Service<EmployeeEntity>) Mockito.mock(Service.class);
+        employee = new EmployeeEntity("João", "Silveira", "j.silveira@email.com");
         employee.setId(1L);
 
         employeeController.setService(employeeService);
@@ -35,7 +35,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void listar() {
-        Collection<Employee> employees = assertDoesNotThrow(employeeController::listar);
+        Collection<EmployeeEntity> employees = assertDoesNotThrow(employeeController::listar);
 
         assertTrue(employees instanceof List);
     }
@@ -45,18 +45,18 @@ public class EmployeeControllerTest {
         long id = employee.getId();
         when(employeeService.buscar(id)).thenReturn(employee);
 
-        Employee employeeSalvo = assertDoesNotThrow(() -> employeeController.buscar(id));
+        EmployeeEntity employeeSalvo = assertDoesNotThrow(() -> employeeController.buscar(id));
 
         assertEquals(employee, employeeSalvo);
     }
 
     @Test
     public void salvar() throws BusinessException {
-        Employee novoEmployee = new Employee("Cristiano", "Halland", "fifa@email.com");
+        EmployeeEntity novoEmployee = new EmployeeEntity("Cristiano", "Halland", "fifa@email.com");
 
         when(employeeService.salvar(novoEmployee)).thenReturn(novoEmployee);
 
-        Employee employeeSalvo = assertDoesNotThrow(() -> employeeController.salvar(novoEmployee));
+        EmployeeEntity employeeSalvo = assertDoesNotThrow(() -> employeeController.salvar(novoEmployee));
 
         assertEquals(novoEmployee, employeeSalvo);
     }
@@ -69,7 +69,7 @@ public class EmployeeControllerTest {
         when(employeeService.buscar(id)).thenReturn(employee);
         when(employeeService.atualizar(employee)).thenReturn(employee);
 
-        Employee employeeAtualizado = assertDoesNotThrow(() -> employeeController.atualizar(employee));
+        EmployeeEntity employeeAtualizado = assertDoesNotThrow(() -> employeeController.atualizar(employee));
 
         assertEquals(employee, employeeAtualizado);
     }

@@ -1,10 +1,9 @@
 package com.ciandt.feedfront.services;
 
 
-import com.ciandt.feedfront.contracts.DAO;
-import com.ciandt.feedfront.contracts.Service;
-import com.ciandt.feedfront.excecoes.*;
-import com.ciandt.feedfront.models.Employee;
+import com.ciandt.feedfront.repositories.EmployeeRepository;
+import com.ciandt.feedfront.exceptions.*;
+import com.ciandt.feedfront.model.EmployeeEntity;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.*;
 // O Service deve ser capaz de trabalhar em conjunto com o DAO para executar as tarefas
 // Sempre valendo-se das regras de negócio
 public class EmployeeServiceTest {
-    private Employee employee;
+    private EmployeeEntity employee;
 
-    private DAO<Employee> employeeDAO;
-    private Service<Employee> employeeService;
+    private EmployeeRepository<EmployeeEntity> employeeDAO;
+    private Service<EmployeeEntity> employeeService;
 
     // essa exception é apenas um Mock...
     private ConstraintViolationException constraintViolationException = new ConstraintViolationException("string", new SQLException(), "string");
@@ -33,10 +32,10 @@ public class EmployeeServiceTest {
     @BeforeEach
     @SuppressWarnings("unchecked")
     public void setup() throws BusinessException {
-        employeeService = new EmployeeService();
-        employeeDAO = (DAO<Employee>) Mockito.mock(DAO.class);
+        employeeService = new EmployeeServiceImpl();
+        employeeDAO = (EmployeeRepository<EmployeeEntity>) Mockito.mock(EmployeeRepository.class);
 
-        employee = new Employee("João", "Silveira", "j.silveira@email.com");
+        employee = new EmployeeEntity("João", "Silveira", "j.silveira@email.com");
         employee.setId(1L);
 
         employeeService.setDAO(employeeDAO);
@@ -48,7 +47,7 @@ public class EmployeeServiceTest {
     public void listar() {
         when(employeeDAO.listar()).thenReturn(List.of(employee));
 
-        List<Employee> employees = employeeService.listar();
+        List<EmployeeEntity> employees = employeeService.listar();
 
         assertFalse(employees.isEmpty());
         assertTrue(employees.contains(employee));
@@ -73,15 +72,15 @@ public class EmployeeServiceTest {
 
         when(employeeDAO.buscar(id)).thenReturn(Optional.of(employee));
 
-        Employee employeeSalvo = assertDoesNotThrow(() -> employeeService.buscar(id));
+        EmployeeEntity employeeSalvo = assertDoesNotThrow(() -> employeeService.buscar(id));
 
         assertEquals(employeeSalvo, employee);
     }
 
     @Test
     public void salvar() throws ComprimentoInvalidoException {
-        Employee employeeValido = new Employee("João", "Silveira", "joao.silveira@email.com");
-        Employee employeeInvalido = new Employee("José", "Silveira", "j.silveira@email.com");
+        EmployeeEntity employeeValido = new EmployeeEntity("João", "Silveira", "joao.silveira@email.com");
+        EmployeeEntity employeeInvalido = new EmployeeEntity("José", "Silveira", "j.silveira@email.com");
 
         when(employeeDAO.salvar(employeeValido)).thenReturn(employeeValido);
         when(employeeDAO.salvar(employeeInvalido)).thenThrow(new PersistenceException(constraintViolationException));
@@ -102,15 +101,15 @@ public class EmployeeServiceTest {
         when(employeeDAO.salvar(employee)).thenReturn(employee);
         when(employeeDAO.buscar(employee.getId())).thenReturn(Optional.of(employee));
 
-        Employee employeeSalvo = assertDoesNotThrow(() -> employeeService.atualizar(employee));
+        EmployeeEntity employeeSalvo = assertDoesNotThrow(() -> employeeService.atualizar(employee));
 
         assertEquals(employee, employeeSalvo);
     }
 
     @Test
     public void atualizacaoMalSucedida() throws BusinessException {
-        Employee employee2 = new Employee("Bruno", "Silveira", "b.silveira@email.com");
-        Employee employee3 = new Employee("Maria", "Silveira", "b.silveira@email.com");
+        EmployeeEntity employee2 = new EmployeeEntity("Bruno", "Silveira", "b.silveira@email.com");
+        EmployeeEntity employee3 = new EmployeeEntity("Maria", "Silveira", "b.silveira@email.com");
 
         employee2.setId(10L);
 
