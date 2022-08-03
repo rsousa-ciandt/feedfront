@@ -40,17 +40,4 @@ public class FeedbackController {
     public Feedback savefeedback(@RequestBody Feedback feedback) throws BusinessException {
         return feedbackService.salvar(feedback);
     }
-
-
-
-    public ResponseEntity<Feedback> atualizar(Feedback feedback) throws BusinessException {
-        throw new UnsupportedOperationException();
-    }
-
-    public void apagar(String id) throws BusinessException {
-        throw new UnsupportedOperationException();
-    }
-
-
-
 }

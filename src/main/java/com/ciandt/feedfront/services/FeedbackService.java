@@ -11,10 +11,4 @@ public interface FeedbackService {
     Feedback buscar(long id) throws BusinessException;
 
     Feedback salvar(Feedback e) throws BusinessException, IllegalArgumentException;
-
-    Feedback atualizar(Feedback e) throws BusinessException, IllegalArgumentException;
-
-    void apagar(long id) throws BusinessException;
-
-
 }
