@@ -33,15 +33,4 @@ public class FeedbackServiceImpl implements FeedbackService {
        return feedBackRepository.save(feedback) ;
     }
 
-    @Override
-    public Feedback atualizar(Feedback feedback) throws BusinessException, IllegalArgumentException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void apagar(long id) throws BusinessException {
-        throw new UnsupportedOperationException();
-    }
-
-
 }
