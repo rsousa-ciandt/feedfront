@@ -27,9 +27,9 @@ public class FeedbackServiceTest {
     @Mock
     private FeedbackRepository feedbackRepository;
     @InjectMocks
-    private FeedbackService feedbackService;
+    private FeedbackServiceImpl feedbackService;
     @Mock
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeService;
 
     @BeforeEach
     @SuppressWarnings("unchecked")

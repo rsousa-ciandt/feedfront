@@ -3,6 +3,7 @@ package com.ciandt.feedfront.controllers;
 import com.ciandt.feedfront.exceptions.BusinessException;
 import com.ciandt.feedfront.models.Employee;
 import com.ciandt.feedfront.services.EmployeeService;
+import com.ciandt.feedfront.services.EmployeeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +26,7 @@ public class EmployeeControllerTest {
     @InjectMocks
     private EmployeeController employeeController;
     @Mock
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeService;
 
     @BeforeEach
     public void setup() throws BusinessException {

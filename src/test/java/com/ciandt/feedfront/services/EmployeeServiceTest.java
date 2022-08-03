@@ -32,7 +32,7 @@ public class EmployeeServiceTest {
     @Mock
     private EmployeeRepository employeeRepository;
     @InjectMocks
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeService;
 
     // essa exception é apenas um Mock...
     private final ConstraintViolationException constraintViolationException = new ConstraintViolationException("string", new SQLException(), "string");
