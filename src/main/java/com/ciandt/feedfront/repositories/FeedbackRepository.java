@@ -4,5 +4,5 @@ package com.ciandt.feedfront.repositories;
 
 
 
-public interface FeedBackRepository  {
+public interface FeedbackRepository {
 }

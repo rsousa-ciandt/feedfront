@@ -1,18 +1,18 @@
 package com.ciandt.feedfront.services;
 
 import com.ciandt.feedfront.exceptions.BusinessException;
-import com.ciandt.feedfront.model.FeedbackEntity;
+import com.ciandt.feedfront.models.Feedback;
 
 import java.util.List;
 
 public interface FeedbackService {
-    List<FeedbackEntity> listar();
+    List<Feedback> listar();
 
-    FeedbackEntity buscar(long id) throws BusinessException;
+    Feedback buscar(long id) throws BusinessException;
 
-    FeedbackEntity salvar(FeedbackEntity e) throws BusinessException, IllegalArgumentException;
+    Feedback salvar(Feedback e) throws BusinessException, IllegalArgumentException;
 
-    FeedbackEntity atualizar(FeedbackEntity e) throws BusinessException, IllegalArgumentException;
+    Feedback atualizar(Feedback e) throws BusinessException, IllegalArgumentException;
 
     void apagar(long id) throws BusinessException;
 

@@ -1,4 +1,4 @@
-package com.ciandt.feedfront.model;
+package com.ciandt.feedfront.models;
 
 import com.ciandt.feedfront.exceptions.ComprimentoInvalidoException;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 
 @Table(name = "Feedback")
-public class FeedbackEntity {
+public class Feedback {
     @Column
     private Long id;
     @Column
@@ -32,14 +32,14 @@ public class FeedbackEntity {
     @JoinColumn(name = "proprietario_id", nullable = false)
     private EmployeeEntity proprietario;
 
-    public FeedbackEntity() {
+    public Feedback() {
     }
 
-    public FeedbackEntity(LocalDate data, EmployeeEntity autor, EmployeeEntity proprietario, String descricao) throws ComprimentoInvalidoException {
+    public Feedback(LocalDate data, EmployeeEntity autor, EmployeeEntity proprietario, String descricao) throws ComprimentoInvalidoException {
         throw new UnsupportedOperationException();
     }
 
-    public FeedbackEntity(LocalDate data, EmployeeEntity autor, EmployeeEntity proprietario, String descricao, String oQueMelhora, String comoMelhora) throws ComprimentoInvalidoException {
+    public Feedback(LocalDate data, EmployeeEntity autor, EmployeeEntity proprietario, String descricao, String oQueMelhora, String comoMelhora) throws ComprimentoInvalidoException {
         throw new UnsupportedOperationException();
     }
 

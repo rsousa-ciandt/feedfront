@@ -2,7 +2,7 @@ package com.ciandt.feedfront.controllers;
 
 
 import com.ciandt.feedfront.exceptions.BusinessException;
-import com.ciandt.feedfront.model.FeedbackEntity;
+import com.ciandt.feedfront.models.Feedback;
 import com.ciandt.feedfront.services.FeedbackService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -25,11 +25,11 @@ public class FeedbackController {
 
     private FeedbackService feedbackService;
 
-    public List<FeedbackEntity> listar() {
+    public List<Feedback> listar() {
         throw new UnsupportedOperationException();
     }
 
-    public ResponseEntity<FeedbackEntity> buscar(long id) throws BusinessException {
+    public ResponseEntity<Feedback> buscar(long id) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 
@@ -37,13 +37,13 @@ public class FeedbackController {
     @ApiOperation(value = "Este salva os dados enviados pelo usuário no banco de dados.")
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public FeedbackEntity savefeedback(@RequestBody FeedbackEntity feedback) throws BusinessException {
+    public Feedback savefeedback(@RequestBody Feedback feedback) throws BusinessException {
         return feedbackService.salvar(feedback);
     }
 
 
 
-    public ResponseEntity<FeedbackEntity> atualizar(FeedbackEntity feedback) throws BusinessException {
+    public ResponseEntity<Feedback> atualizar(Feedback feedback) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 
