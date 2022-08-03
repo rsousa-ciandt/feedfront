@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -21,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 public class FeedbackControllerTest {
 
     private Feedback feedback;
@@ -43,7 +41,7 @@ public class FeedbackControllerTest {
         feedback.setId(1L);
 
         when(feedbackService.salvar(feedback)).thenReturn(feedback);
-        controller.salvar(feedback);
+        controller.savefeedback(feedback);
     }
     @Test
     public void listar(){
@@ -62,7 +60,7 @@ public class FeedbackControllerTest {
 
         when(feedbackService.buscar(id)).thenReturn(feedback);
 
-        Feedback feedbackSalvo = assertDoesNotThrow(() -> controller.buscar(id));
+        Feedback feedbackSalvo = assertDoesNotThrow(() -> controller.buscar(id).getBody());
 
         assertEquals(feedback, feedbackSalvo);
 
@@ -74,7 +72,7 @@ public class FeedbackControllerTest {
 
         when(feedbackService.salvar(novoFeedback)).thenReturn(novoFeedback);
 
-        Feedback feedbackSalvo = controller.salvar(novoFeedback);
+        Feedback feedbackSalvo = controller.savefeedback(novoFeedback);
 
         assertEquals(novoFeedback, feedbackSalvo);
     }
