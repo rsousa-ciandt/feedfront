@@ -1,12 +1,7 @@
-package com.feedfront.feedfront.models;
+package com.ciandt.feedfront.models;
 
-import com.feedfront.feedfront.excecoes.ComprimentoInvalidoException;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.ciandt.feedfront.exceptions.ComprimentoInvalidoException;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
