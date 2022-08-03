@@ -1,7 +1,7 @@
 package com.ciandt.feedfront.services;
 
-import com.feedfront.feedfront.excecoes.BusinessException;
-import com.feedfront.feedfront.models.Employee;
+import com.ciandt.feedfront.exceptions.BusinessException;
+import com.ciandt.feedfront.models.Employee;
 
 import java.util.List;
 
