@@ -26,20 +26,20 @@ public class Feedback {
 
     @ManyToOne //(fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id")
-    private EmployeeEntity autor;
+    private Employee autor;
 
     @ManyToOne //(fetch = FetchType.EAGER)
     @JoinColumn(name = "proprietario_id", nullable = false)
-    private EmployeeEntity proprietario;
+    private Employee proprietario;
 
     public Feedback() {
     }
 
-    public Feedback(LocalDate data, EmployeeEntity autor, EmployeeEntity proprietario, String descricao) throws ComprimentoInvalidoException {
+    public Feedback(LocalDate data, Employee autor, Employee proprietario, String descricao) throws ComprimentoInvalidoException {
         throw new UnsupportedOperationException();
     }
 
-    public Feedback(LocalDate data, EmployeeEntity autor, EmployeeEntity proprietario, String descricao, String oQueMelhora, String comoMelhora) throws ComprimentoInvalidoException {
+    public Feedback(LocalDate data, Employee autor, Employee proprietario, String descricao, String oQueMelhora, String comoMelhora) throws ComprimentoInvalidoException {
         throw new UnsupportedOperationException();
     }
 
