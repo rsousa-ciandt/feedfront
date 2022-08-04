@@ -7,11 +7,12 @@ import java.time.LocalDate;
 
 
 
-@Table(name = "Feedback")
+
 public class Feedback {
-    @Column
+    @Id
     private Long id;
     @Column
+    @Length(min = 3)
     private String descricao;
     @Column
     private String oQueMelhora;

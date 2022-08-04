@@ -2,7 +2,7 @@ package com.ciandt.feedfront.models;
 
 import com.ciandt.feedfront.exceptions.ComprimentoInvalidoException;
 
-import java.io.Serializable;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -10,12 +10,14 @@ import java.util.Objects;
 //TODO: UTILIZE ANOTAÇÕES DO LOMBOK COMO @ALLARGSCONSTRUTOR E RETIRE O QUE NÃO FOR MAIS NECESSÁRIO COMO O CONSTRUTOR COM TODOS OS ARGUMENTOS. DEIXE SEU CÓDIGO MAIS SUSCINTO.
 
 
-public class Employee implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Column
+public class Employee {
+
+    @Id
     private Long id;
+    @Length(min = 3)
     @Column // (nullable = false)
     private String nome;
+    @Length(min = 3)
     @Column // (nullable = false)
     private String sobrenome;
 

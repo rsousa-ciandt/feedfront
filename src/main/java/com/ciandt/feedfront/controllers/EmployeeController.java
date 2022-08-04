@@ -12,15 +12,15 @@ public class EmployeeController {
 
     // Utilize o exemplo de salvar na classe FeedbackController para implementar os métodos:
 
-    public List<Employee> listar()  {
+    public ResponseEntity<List<Employee> listar()  {
         throw new UnsupportedOperationException();
     }
 
-    public Employee buscar(long id) throws BusinessException {
+    public ResponseEntity<Employee> buscar(long id) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 
-    public Employee salvar(Employee employee) throws BusinessException {
+    public ResponseEntity<Employee> salvar(Employee employee) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 

@@ -17,19 +17,19 @@ public class FeedbackController {
 
     private FeedbackService feedbackService;
 
-    public List<Feedback> listar() {
+    public ResponseEntity<List<Feedback>> listar() {
         throw new UnsupportedOperationException();
     }
 
-    public ResponseEntity<Feedback> buscar(long id) throws BusinessException {
-        throw new UnsupportedOperationException();
+    @ApiOperation(value = "Este retorna todos os dados enviados pelos usuários no banco de dados.")
+    @GetMapping("/getAll")
+    public ResponseEntity<List<FeedbackEntity>> findall() {
+        List<FeedbackEntity> list = feedbackService.findallfeedback();
+        return new ResponseEntity<List<FeedbackEntity>>(list , HttpStatus.OK);
     }
 
 
-    @ApiOperation(value = "Este salva os dados enviados pelo usuário no banco de dados.")
-    @PostMapping("/save")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Feedback savefeedback(@RequestBody Feedback feedback) throws BusinessException {
-        return feedbackService.salvar(feedback);
+    public ResponseEntity<Feedback> savefeedback(@RequestBody Feedback feedback) throws BusinessException {
+        throw new UnsupportedOperationException();
     }
 }
