@@ -40,7 +40,7 @@ public class EmployeeControllerTest {
     @Test
     public void listar() {
         when(employeeService.listar()).thenReturn(List.of(employee));
-        Collection<Employee> employees = assertDoesNotThrow(employeeController::listar);
+        Collection<Employee> employees = assertDoesNotThrow(employeeController::listar).getBody();
 
         assertEquals(1, employees.size());
     }
@@ -50,7 +50,7 @@ public class EmployeeControllerTest {
         long id = employee.getId();
         when(employeeService.buscar(id)).thenReturn(employee);
 
-        Employee employeeSalvo = assertDoesNotThrow(() -> employeeController.buscar(id));
+        Employee employeeSalvo = assertDoesNotThrow(() -> employeeController.buscar(id)).getBody();
 
         assertEquals(employee, employeeSalvo);
     }
@@ -61,7 +61,7 @@ public class EmployeeControllerTest {
 
         when(employeeService.salvar(novoEmployee)).thenReturn(novoEmployee);
 
-        Employee employeeSalvo = assertDoesNotThrow(() -> employeeController.salvar(novoEmployee));
+        Employee employeeSalvo = assertDoesNotThrow(() -> employeeController.salvar(novoEmployee)).getBody();
 
         assertEquals(novoEmployee, employeeSalvo);
     }
@@ -74,7 +74,7 @@ public class EmployeeControllerTest {
         lenient().when(employeeService.buscar(id)).thenReturn(employee);
         when(employeeService.atualizar(employee)).thenReturn(employee);
 
-        Employee employeeAtualizado = assertDoesNotThrow(() -> employeeController.atualizar(employee));
+        Employee employeeAtualizado = assertDoesNotThrow(() -> employeeController.atualizar(employee)).getBody();
 
         assertEquals(employee, employeeAtualizado);
     }
