@@ -72,7 +72,7 @@ public class FeedbackControllerTest {
 
         when(feedbackService.salvar(novoFeedback)).thenReturn(novoFeedback);
 
-        Feedback feedbackSalvo = controller.savefeedback(novoFeedback);
+        Feedback feedbackSalvo = controller.savefeedback(novoFeedback).getBody();
 
         assertEquals(novoFeedback, feedbackSalvo);
     }

@@ -23,9 +23,9 @@ public class FeedbackController {
 
     @ApiOperation(value = "Este retorna todos os dados enviados pelos usuários no banco de dados.")
     @GetMapping("/getAll")
-    public ResponseEntity<List<FeedbackEntity>> findall() {
-        List<FeedbackEntity> list = feedbackService.findallfeedback();
-        return new ResponseEntity<List<FeedbackEntity>>(list , HttpStatus.OK);
+    public ResponseEntity<List<Feedback>> findall() {
+        List<Feedback> list = feedbackService.findallfeedback();
+        return new ResponseEntity<List<Feedback>>(list , HttpStatus.OK);
     }
 
 
