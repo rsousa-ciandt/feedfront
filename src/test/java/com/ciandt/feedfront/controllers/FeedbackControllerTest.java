@@ -41,13 +41,13 @@ public class FeedbackControllerTest {
         feedback.setId(1L);
 
         when(feedbackService.salvar(feedback)).thenReturn(feedback);
-        controller.savefeedback(feedback);
+        controller.salvar(feedback);
     }
     @Test
     public void listar(){
         when(feedbackService.listar()).thenReturn(List.of(feedback));
 
-        Collection<Feedback> listaFeedback = controller.listar();
+        Collection<Feedback> listaFeedback = assertDoesNotThrow(controller::listar).getBody();
         assertEquals(1, listaFeedback.size());
 
     }
@@ -72,7 +72,7 @@ public class FeedbackControllerTest {
 
         when(feedbackService.salvar(novoFeedback)).thenReturn(novoFeedback);
 
-        Feedback feedbackSalvo = controller.savefeedback(novoFeedback).getBody();
+        Feedback feedbackSalvo = controller.salvar(novoFeedback).getBody();
 
         assertEquals(novoFeedback, feedbackSalvo);
     }

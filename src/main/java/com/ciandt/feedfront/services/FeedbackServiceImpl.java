@@ -30,7 +30,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public Feedback salvar(Feedback feedback) throws BusinessException, IllegalArgumentException {
-       return feedBackRepository.save(feedback) ;
+        throw new UnsupportedOperationException();
     }
 
 }
