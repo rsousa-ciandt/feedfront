@@ -22,27 +22,26 @@ public class EmployeeController {
     @ApiOperation(value = "Salva um employee")
     @PostMapping
     public ResponseEntity<Employee> salvar(@RequestBody Employee employee) throws BusinessException {
-
         Employee Employee = employeeService.salvar(employee);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(employee.getId()).toUri();
         return ResponseEntity.created(uri).body(employee);
-
     }
 
     @GetMapping
     public ResponseEntity<List<Employee>> listar()  {
         List<Employee> list = employeeService.listar();
-
         return ResponseEntity.ok().body(list);
     }
 
-    /*
-
-    public ResponseEntity<Employee> buscar(long id) throws BusinessException {
-        throw new UnsupportedOperationException();
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Employee> buscar(@PathVariable Long id) throws BusinessException {
+       Employee employee =  employeeService.buscar(id);
+       return ResponseEntity.ok().body(employee);
     }
+
+    /*
 
     public ResponseEntity apagar(long id) throws BusinessException {
         throw new UnsupportedOperationException();
