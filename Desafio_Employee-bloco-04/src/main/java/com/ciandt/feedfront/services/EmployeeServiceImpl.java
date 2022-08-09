@@ -10,7 +10,6 @@ import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import java.util.List;
 
-//TODO: IMPLEMENTE AS CLASSES E MAPEIE A CLASSE PARA O SPRINGBOOT
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -19,21 +18,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
 
     @Override
-    public List<Employee> listar() {
-        throw new UnsupportedOperationException();
+    @Transactional
+    public Employee salvar(Employee employee) throws BusinessException {
+
+        return employeeRepository.save(employee);
+
     }
+
+    @Override
+    public List<Employee> listar() {
+
+       List<Employee> list = employeeRepository.findAll();
+
+       return list;
+    }
+
 
     @Override
     public Employee buscar(long id) throws BusinessException {
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    @Transactional
-    public Employee salvar(Employee employee) throws BusinessException {
-
-            return employeeRepository.save(employee);
-
     }
 
     @Override
@@ -45,4 +48,5 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void apagar(long id) throws BusinessException {
         throw new UnsupportedOperationException();
     }
+
 }
