@@ -3,6 +3,7 @@ package com.ciandt.feedfront.controllers;
 import com.ciandt.feedfront.exceptions.BusinessException;
 import com.ciandt.feedfront.models.Employee;
 import com.ciandt.feedfront.services.EmployeeService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,9 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-
-//TODO: APLIQUE AS ANOTAÇÕES NECESSÁRIAS PARA QUE O PROGRAMA RECONHEÇA AS DIFERENTES CAMADAS COMO @SERVICE, @RESTCONTROLLER. NÃO ESQUEÇA DAS INJEÇÕES DE DEPENDENCIA COM O @AUTOWIRED
-//TODO: APLIQUE AS ANOTAÇÕES DO SWAGGER CONFORME O EXEMPLO @ApiOperation EM FEEDBACKCONTROLLER.
 
 @RestController
 @RequestMapping("/v1/employees")
@@ -36,6 +34,7 @@ public class EmployeeController {
     }
     */
 
+    @ApiOperation(value = "Salva um employee")
     @PostMapping
     public ResponseEntity<Employee> salvar(@RequestBody Employee employee) throws BusinessException {
 

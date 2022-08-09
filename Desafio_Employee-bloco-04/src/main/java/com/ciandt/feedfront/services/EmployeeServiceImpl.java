@@ -3,12 +3,19 @@ package com.ciandt.feedfront.services;
 import com.ciandt.feedfront.exceptions.BusinessException;
 import com.ciandt.feedfront.models.Employee;
 import com.ciandt.feedfront.repositories.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.persistence.PersistenceException;
+import javax.transaction.Transactional;
 import java.util.List;
 
 //TODO: IMPLEMENTE AS CLASSES E MAPEIE A CLASSE PARA O SPRINGBOOT
+
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+    @Autowired
     private EmployeeRepository employeeRepository;
 
     @Override
@@ -22,8 +29,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional
     public Employee salvar(Employee employee) throws BusinessException {
-        throw new UnsupportedOperationException();
+
+            return employeeRepository.save(employee);
+
     }
 
     @Override
