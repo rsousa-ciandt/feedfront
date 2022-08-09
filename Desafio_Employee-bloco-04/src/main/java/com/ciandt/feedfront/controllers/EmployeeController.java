@@ -41,15 +41,15 @@ public class EmployeeController {
        return ResponseEntity.ok().body(employee);
     }
 
-    /*
-
-    public ResponseEntity apagar(long id) throws BusinessException {
-        throw new UnsupportedOperationException();
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity apagar(@PathVariable Long id) throws BusinessException {
+        employeeService.apagar(id);
+        return ResponseEntity.noContent().build();
     }
 
+    /*
     public ResponseEntity<Employee> atualizar (Employee employee) throws BusinessException {
         throw new UnsupportedOperationException();
     }
-
-     */
+    */
 }

@@ -1,9 +1,11 @@
 package com.ciandt.feedfront.services;
 
 import com.ciandt.feedfront.exceptions.BusinessException;
+import com.ciandt.feedfront.exceptions.EmployeeNaoEncontradoException;
 import com.ciandt.feedfront.models.Employee;
 import com.ciandt.feedfront.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -39,13 +41,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public void apagar(long id) throws BusinessException {
+        try{
+            employeeRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e){
+            throw new BusinessException("Id not found " + id);
+        }
+    }
+
+    @Override
     public Employee atualizar(Employee employee) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void apagar(long id) throws BusinessException {
-        throw new UnsupportedOperationException();
-    }
+
 
 }
