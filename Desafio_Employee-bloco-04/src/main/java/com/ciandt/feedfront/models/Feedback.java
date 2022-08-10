@@ -1,5 +1,11 @@
 package com.ciandt.feedfront.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,13 +35,15 @@ public class Feedback implements Serializable {
 
     private String comoMelhora;
 
+    @JsonFormat(pattern="MM/dd/yyyy")
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private LocalDate data;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "autor_id")
+    @ManyToOne
+    @JoinColumn(name = "autor_id", nullable = false)
     private Employee autor;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "proprietario_id", nullable = false)
     private Employee proprietario;
 
@@ -45,6 +53,7 @@ public class Feedback implements Serializable {
         this.proprietario = proprietario;
         this.descricao = descricao;
     }
+
 
     public Feedback(LocalDate data, Employee autor, Employee proprietario, String descricao, String oQueMelhora, String comoMelhora)  {
         this.data = data;

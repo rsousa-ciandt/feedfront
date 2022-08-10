@@ -32,12 +32,10 @@ public class Employee implements Serializable {
     @Column(name = "email", unique = true)
     private String email;
 
-    @OneToMany (fetch = FetchType.LAZY)
-    @JoinColumn(name = "autor_id")
+    @OneToMany (mappedBy = "autor")
     private List<Feedback> feedbackFeitos;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "proprietario_id")
+    @OneToMany(mappedBy = "proprietario")
     private List<Feedback> feedbackRecebidos;
 
     public Employee(String nome, String sobrenome, String email) {

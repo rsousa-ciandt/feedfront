@@ -1,16 +1,16 @@
 package com.ciandt.feedfront.controllers;
 
 import com.ciandt.feedfront.exceptions.BusinessException;
+import com.ciandt.feedfront.models.Employee;
 import com.ciandt.feedfront.models.Feedback;
 import com.ciandt.feedfront.services.FeedbackService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -27,12 +27,19 @@ public class FeedbackController {
         return ResponseEntity.ok().body(list);
     }
 
-    public ResponseEntity<Feedback> buscar(long id) throws BusinessException {
-        throw new UnsupportedOperationException();
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Feedback> buscar(@PathVariable Long id) throws BusinessException {
+        Feedback feedback =  feedbackService.buscar(id);
+        return ResponseEntity.ok().body(feedback);
     }
 
+    @PostMapping
     public ResponseEntity<Feedback> salvar(@RequestBody Feedback feedback) throws BusinessException {
-        throw new UnsupportedOperationException();
+        Feedback feedback1 = feedbackService.salvar(feedback);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(feedback.getId()).toUri();
+        return ResponseEntity.created(uri).body(feedback);
     }
 }
 
