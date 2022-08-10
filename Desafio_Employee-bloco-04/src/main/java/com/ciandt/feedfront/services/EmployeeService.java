@@ -12,7 +12,7 @@ public interface EmployeeService {
 
     Employee salvar(Employee e) throws BusinessException, IllegalArgumentException;
 
-    Employee atualizar(Employee e) throws BusinessException, IllegalArgumentException;
+    Employee atualizar(Long id, Employee e) throws BusinessException, IllegalArgumentException;
 
     void apagar(long id) throws BusinessException;
 }

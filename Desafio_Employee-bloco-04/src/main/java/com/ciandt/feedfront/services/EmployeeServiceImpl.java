@@ -50,11 +50,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    @Transactional
     @Override
-    public Employee atualizar(Employee employee) throws BusinessException {
-        throw new UnsupportedOperationException();
-    }
+    public Employee atualizar(Long id, Employee employee) throws BusinessException {
 
+        Optional<Employee> obj = employeeRepository.findById(id);
+        Employee entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+
+        entity.setNome(employee.getNome());
+        entity = employeeRepository.save(entity);
+
+        return entity;
+    }
 
 
 }

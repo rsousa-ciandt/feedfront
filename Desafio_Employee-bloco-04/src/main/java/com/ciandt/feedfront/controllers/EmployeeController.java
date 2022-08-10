@@ -47,9 +47,10 @@ public class EmployeeController {
         return ResponseEntity.noContent().build();
     }
 
-    /*
-    public ResponseEntity<Employee> atualizar (Employee employee) throws BusinessException {
-        throw new UnsupportedOperationException();
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Employee> atualizar(@PathVariable Long id, @RequestBody Employee employee) throws BusinessException {
+        employee = employeeService.atualizar(id, employee);
+        return ResponseEntity.ok().body(employee);
     }
-    */
+
 }

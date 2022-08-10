@@ -29,7 +29,7 @@ public class Employee implements Serializable {
     @Column (nullable = false)
     private String sobrenome;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
     @OneToMany (fetch = FetchType.LAZY)
